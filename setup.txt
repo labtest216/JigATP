@@ -1,0 +1,11 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+python-pip is already the newest version (8.1.1-2ubuntu0.4).
+The following packages were automatically installed and are no longer required:
+  libhdhomerun2 libllvm3.8 libmircommon5 libnfs8 snap-confine
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 21 not upgraded.
+sudo apt install python-pip
+sudo apt install python3-pip
+python -m serial.tools.list_ports
