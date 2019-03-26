@@ -1,0 +1,149 @@
+1553511822.3684418  2019-03-25 13:03:42,386  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553511822.3684418  2019-03-25 13:03:44,519  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM17 pass.
+1553511822.3684418  2019-03-25 13:03:44,685  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM17 pass.
+1553511822.3684418  2019-03-25 13:03:44,686  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553511822.3684418  2019-03-25 13:03:44,905  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553511822.3684418  2019-03-25 13:03:44,906  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553511822.3684418  2019-03-25 13:03:46,924  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553511822.3684418  2019-03-25 13:03:48,938  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553511822.3684418  2019-03-25 13:03:50,953  FileName=LDA_GPS.py  FuncName=parse_values:  hue=060.00 saturation=033 intensity=00293
+1553511822.3684418  2019-03-25 13:03:50,954  FileName=LDA_GPS.py  FuncName=parse_values:   red=0012 grn=0012 blu=0006 x=0.4194 y=0.3942
+1553511884.3062587  2019-03-25 13:04:44,327  FileName=device.py  FuncName=init_com:  Motor open COM14 pass.
+1553511884.3062587  2019-03-25 13:04:44,328  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:46,329  FileName=device.py  FuncName=send_and_wait:  Motor receive 
+1553511884.3062587  2019-03-25 13:04:48,330  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:48,331  FileName=device.py  FuncName=send_and_wait:  Motor receive 
+1553511884.3062587  2019-03-25 13:04:48,331  FileName=device.py  FuncName=send_and_wait:  Motor not get ack
+1553511884.3062587  2019-03-25 13:04:48,458  FileName=device.py  FuncName=init_com:  Motor open COM17 pass.
+1553511884.3062587  2019-03-25 13:04:48,459  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:50,461  FileName=device.py  FuncName=send_and_wait:  Motor receive 
+1553511884.3062587  2019-03-25 13:04:52,462  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:52,463  FileName=device.py  FuncName=send_and_wait:  Motor receive 
+1553511884.3062587  2019-03-25 13:04:52,463  FileName=device.py  FuncName=send_and_wait:  Motor not get ack
+1553511884.3062587  2019-03-25 13:04:52,576  FileName=device.py  FuncName=init_com:  Motor open COM15 pass.
+1553511884.3062587  2019-03-25 13:04:52,577  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:53,579  FileName=device.py  FuncName=send_and_wait:  Motor receive Stud: 1,RSSI:
+1553511884.3062587  2019-03-25 13:04:53,580  FileName=device.py  FuncName=send_and_wait:  Motor send stop_motor wait for Stop_Motor_OK
+1553511884.3062587  2019-03-25 13:04:53,581  FileName=device.py  FuncName=send_and_wait:  Motor receive  -20,Packet: 
+1553511884.3062587  2019-03-25 13:04:53,581  FileName=device.py  FuncName=send_and_wait:  Motor not get ack
+1553511884.3062587  2019-03-25 13:04:53,587  FileName=device.py  FuncName=i_init_com:  init fail
+1553511884.3062587  2019-03-25 13:04:53,588  FileName=device.py  FuncName=send_and_wait:  Motor send start_motor wait for Start_Motor_OK
+1553511930.543677  2019-03-25 13:05:30,560  FileName=device.py  FuncName=init_com:  Motor open COM14 pass.
+1553511930.543677  2019-03-25 13:05:32,696  FileName=device.py  FuncName=init_com:  Motor open COM17 pass.
+1553511930.543677  2019-03-25 13:05:34,814  FileName=device.py  FuncName=init_com:  Motor open COM15 pass.
+1553511930.543677  2019-03-25 13:05:34,820  FileName=device.py  FuncName=i_init_com:  init fail
+1553595370.2658484  2019-03-26 12:16:10,336  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553595525.3718057  2019-03-26 12:18:45,443  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553595560.8234267  2019-03-26 12:19:58,496  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553595835.377471  2019-03-26 12:23:55,454  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553595900.0886173  2019-03-26 12:25:00,163  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553596641.3589563  2019-03-26 12:37:21,375  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553596732.7965026  2019-03-26 12:38:52,873  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553596732.7965026  2019-03-26 12:39:19,006  FileName=device.py  FuncName=init_com:  Odroid open COM15 pass.
+1553596732.7965026  2019-03-26 12:40:41,842  FileName=device.py  FuncName=i_init_com:  init fail
+1553596869.0035229  2019-03-26 12:41:09,075  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553596965.596716  2019-03-26 12:42:45,603  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553597313.9394097  2019-03-26 12:48:33,948  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553597612.5308495  2019-03-26 12:53:32,602  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553597653.600424  2019-03-26 12:54:13,674  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553597717.7381406  2019-03-26 12:55:17,810  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553597717.7381406  2019-03-26 13:01:04,969  FileName=device.py  FuncName=init_com:  Odroid open COM15 pass.
+1553601324.3481507  2019-03-26 13:55:24,409  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601436.4167302  2019-03-26 13:57:16,473  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601590.4084046  2019-03-26 13:59:50,490  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601625.6594565  2019-03-26 14:00:25,723  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601657.2059608  2019-03-26 14:00:57,273  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601717.0421197  2019-03-26 14:01:57,114  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601787.4130876  2019-03-26 14:03:07,481  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553601858.3863728  2019-03-26 14:04:18,459  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553602113.3668087  2019-03-26 14:08:33,434  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553603415.1828446  2019-03-26 14:30:15,197  FileName=device.py  FuncName=init_com:  Denkovi16 open COM14 pass.
+1553603415.1828446  2019-03-26 14:30:15,342  FileName=device.py  FuncName=init_com:  Denkovi16 open COM14 pass.
+1553603415.1828446  2019-03-26 14:30:15,342  FileName=device.py  FuncName=send_and_wait:  Denkovi16 send 05+// wait for 05+//
+1553603415.1828446  2019-03-26 14:30:15,356  FileName=device.py  FuncName=send_and_wait:  Denkovi16 receive 05+//
+1553603415.1828446  2019-03-26 14:30:15,356  FileName=denkovi16.py  FuncName=set_switch:   number 5 on pass
+1553603415.1828446  2019-03-26 14:30:17,356  FileName=device.py  FuncName=send_and_wait:  Denkovi16 send 05-// wait for 05-//
+1553603415.1828446  2019-03-26 14:30:17,369  FileName=device.py  FuncName=send_and_wait:  Denkovi16 receive 05-//
+1553603415.1828446  2019-03-26 14:30:17,370  FileName=denkovi16.py  FuncName=set_switch:   number 5 off pass
+1553603415.1828446  2019-03-26 14:30:19,370  FileName=device.py  FuncName=send_and_wait:  Denkovi16 send 01+// wait for 01+//
+1553603415.1828446  2019-03-26 14:30:19,382  FileName=device.py  FuncName=send_and_wait:  Denkovi16 receive 01+//
+1553603415.1828446  2019-03-26 14:30:19,382  FileName=denkovi16.py  FuncName=set_switch:   number 1 on pass
+1553603415.1828446  2019-03-26 14:30:21,384  FileName=device.py  FuncName=send_and_wait:  Denkovi16 send 01-// wait for 01-//
+1553603415.1828446  2019-03-26 14:30:21,410  FileName=device.py  FuncName=send_and_wait:  Denkovi16 receive 01-//
+1553603415.1828446  2019-03-26 14:30:21,411  FileName=denkovi16.py  FuncName=set_switch:   number 1 off pass
+1553603452.2578099  2019-03-26 14:30:52,265  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553603484.7516208  2019-03-26 14:31:24,824  FileName=device.py  FuncName=init_com:  Odroid open COM19 pass.
+1553603564.2170596  2019-03-26 14:32:44,282  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553603621.6345968  2019-03-26 14:33:41,689  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553603656.7472603  2019-03-26 14:34:16,827  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553603798.552998  2019-03-26 14:36:38,618  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553603852.2878823  2019-03-26 14:37:32,346  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553603884.184499  2019-03-26 14:38:04,250  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553603884.184499  2019-03-26 14:38:06,268  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553603884.184499  2019-03-26 14:38:08,399  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603884.184499  2019-03-26 14:38:08,565  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603884.184499  2019-03-26 14:38:08,565  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553603884.184499  2019-03-26 14:38:08,785  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553603884.184499  2019-03-26 14:38:08,786  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553603884.184499  2019-03-26 14:38:10,804  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553603884.184499  2019-03-26 14:38:12,816  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553603884.184499  2019-03-26 14:38:14,828  FileName=LDA_GPS.py  FuncName=parse_values:  hue=068.00 saturation=026 intensity=00879
+1553603884.184499  2019-03-26 14:38:14,828  FileName=LDA_GPS.py  FuncName=parse_values:   red=0034 grn=0036 blu=0021 x=0.4012 y=0.3810
+1553603917.340988  2019-03-26 14:38:37,401  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553603935.7808974  2019-03-26 14:38:55,833  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553603935.7808974  2019-03-26 14:38:55,885  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553603935.7808974  2019-03-26 14:38:58,016  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603935.7808974  2019-03-26 14:38:58,180  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603935.7808974  2019-03-26 14:38:58,181  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553603935.7808974  2019-03-26 14:38:58,401  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553603935.7808974  2019-03-26 14:38:58,402  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553603935.7808974  2019-03-26 14:39:00,420  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553603935.7808974  2019-03-26 14:39:02,433  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553603935.7808974  2019-03-26 14:39:04,445  FileName=LDA_GPS.py  FuncName=parse_values:  hue=068.00 saturation=026 intensity=00879
+1553603935.7808974  2019-03-26 14:39:04,445  FileName=LDA_GPS.py  FuncName=parse_values:   red=0034 grn=0036 blu=0021 x=0.4012 y=0.3810
+1553603947.1308463  2019-03-26 14:39:07,193  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553603947.1308463  2019-03-26 14:39:07,486  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553603947.1308463  2019-03-26 14:39:09,618  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603947.1308463  2019-03-26 14:39:09,783  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553603947.1308463  2019-03-26 14:39:09,784  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553603947.1308463  2019-03-26 14:39:10,004  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553603947.1308463  2019-03-26 14:39:10,005  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553603947.1308463  2019-03-26 14:39:12,021  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553603947.1308463  2019-03-26 14:39:14,035  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553603947.1308463  2019-03-26 14:39:16,047  FileName=LDA_GPS.py  FuncName=parse_values:  hue=068.00 saturation=026 intensity=00879
+1553603947.1308463  2019-03-26 14:39:16,048  FileName=LDA_GPS.py  FuncName=parse_values:   red=0034 grn=0036 blu=0021 x=0.4012 y=0.3810
+1553603968.4089334  2019-03-26 14:39:28,475  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553604000.1354837  2019-03-26 14:40:00,186  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553604000.1354837  2019-03-26 14:40:00,196  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553604000.1354837  2019-03-26 14:40:02,327  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604000.1354837  2019-03-26 14:40:02,492  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604000.1354837  2019-03-26 14:40:02,493  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553604000.1354837  2019-03-26 14:40:02,712  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553604000.1354837  2019-03-26 14:40:02,713  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553604000.1354837  2019-03-26 14:40:04,729  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553604000.1354837  2019-03-26 14:40:06,743  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553604000.1354837  2019-03-26 14:40:08,756  FileName=LDA_GPS.py  FuncName=parse_values:  hue=064.29 saturation=024 intensity=00879
+1553604000.1354837  2019-03-26 14:40:08,757  FileName=LDA_GPS.py  FuncName=parse_values:   red=0035 grn=0036 blu=0022 x=0.4007 y=0.3757
+1553604024.538049  2019-03-26 14:40:24,602  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553604024.538049  2019-03-26 14:40:26,616  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553604024.538049  2019-03-26 14:40:28,746  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604024.538049  2019-03-26 14:40:28,912  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604024.538049  2019-03-26 14:40:28,913  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553604024.538049  2019-03-26 14:40:29,135  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553604024.538049  2019-03-26 14:40:29,135  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553604024.538049  2019-03-26 14:40:31,153  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553604024.538049  2019-03-26 14:40:33,166  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553604024.538049  2019-03-26 14:40:35,178  FileName=LDA_GPS.py  FuncName=parse_values:  hue=064.29 saturation=024 intensity=00879
+1553604024.538049  2019-03-26 14:40:35,178  FileName=LDA_GPS.py  FuncName=parse_values:   red=0035 grn=0036 blu=0022 x=0.4007 y=0.3757
+1553604042.5365202  2019-03-26 14:40:42,586  FileName=device.py  FuncName=init_com:  Denkovi16 open COM19 pass.
+1553604090.0770643  2019-03-26 14:41:30,137  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM19 pass.
+1553604090.0770643  2019-03-26 14:41:30,145  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM14 pass.
+1553604090.0770643  2019-03-26 14:41:32,277  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604090.0770643  2019-03-26 14:41:32,443  FileName=device.py  FuncName=init_com:  LedAnalyzer open COM20 pass.
+1553604090.0770643  2019-03-26 14:41:32,445  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer send capture wait for OK
+1553604090.0770643  2019-03-26 14:41:32,664  FileName=device.py  FuncName=send_and_wait:  LedAnalyzer receive OK
+1553604090.0770643  2019-03-26 14:41:32,665  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send gethsi1 1
+1553604090.0770643  2019-03-26 14:41:34,682  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getrgbi1 1
+1553604090.0770643  2019-03-26 14:41:36,695  FileName=device.py  FuncName=send_and_get:  LedAnalyzer send getxy1 1
+1553604090.0770643  2019-03-26 14:41:38,708  FileName=LDA_GPS.py  FuncName=parse_values:  hue=064.29 saturation=024 intensity=00879
+1553604090.0770643  2019-03-26 14:41:38,709  FileName=LDA_GPS.py  FuncName=parse_values:   red=0035 grn=0036 blu=0022 x=0.4007 y=0.3757
