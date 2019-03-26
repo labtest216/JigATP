@@ -1,14 +1,20 @@
-from cfg import * 
-import smtplib, socket, time, os, signal, json, sys
+
+import smtplib, socket, time, os, signal, json, sys, logging
 import traceback
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
+from setuptools import setup
 from datetime import datetime
-import inspect
+import pyglet
 
 
-def find_avg_value_from_file(file_path, value,):
+def add_pack():
+	setup(
+		name='Jig',
+		packages=['Tests', 'Sniffer', 'RelayBoard', 'Speaker'],
+		include_package_data=True,
+		install_requires=['flask'],)
+
+
+def find_avg_value_from_file(file_path, value):
 	f = open(file_path, 'r')
 	lines = f.readlines()
 
@@ -17,35 +23,57 @@ def find_avg_value_from_file(file_path, value,):
 	for line in lines:
 		lines_split = line.split(',')
 		v = find_value_in_line(lines_split, value)
-		#print(v)
+		print(v)
 		avg_value += float(v[len(value):])
-	avg_value /=  len(lines)
+	avg_value /= len(lines)
 	print('avg '+value+'='+str(avg_value))
 	return avg_value
 
-		
-	
-	
+
+def check_limits(limit_low, limit_high, delta):
+	if limit_low <= delta <= limit_high:
+		return 0
+	else:
+		return -1
+
+
 def find_value_in_line(lines, value):
 	for line in lines:
 		if line.find(value) != -1:
 			return line
 
+
 # Debug printer.
 def dprint(data_to_print):
-    # os.system('echo ' + str(time()) + ' ' + str(data_to_print))
-    print(str(time.time()) + " " + str(datetime.now()) + " " + data_to_print)
-
-
-# Get function name.
-def f_name():
-    stack=traceback.extract_stack()
-    filename, codeline, funcName, text = stack[-3]
-    return funcName
+	# os.system('echo ' + str(time()) + ' ' + str(data_to_print))
+	print(str(time.time()) + " " + str(datetime.now()) + " " + data_to_print)
 
 # Get function name.
-def f_name_():
-    stack=traceback.extract_stack()
-    filename, codeline, funcName, text = stack[-1]
-    return funcName
+# -2=current frame, -3=up frame.
+def f_name(level=None):
+	stack = traceback.extract_stack()
+	if level is None:
+		file_name, code_line, func_name, text = stack[-2]
+	else:
+		file_name, code_line, func_name, text = stack[level]
+	return func_name
 
+
+# Play sound file.
+def play_file(sound_file, seconds_to_play):
+	# Edit pyglet.app.run for stop playing wave file.
+	player = pyglet.media.Player()
+	music = pyglet.media.load(sound_file)
+	player.queue(music)
+	player.play()
+	pyglet.app.run(seconds_to_play)
+
+
+# Create object on run time by reflection (class name = "import_file.class_name".
+def get_class(class_name):
+	parts = class_name.split('.')
+	module = ".".join(parts[:-1])
+	m = __import__(module)
+	for comp in parts[1:]:
+		m = getattr(m, comp)
+	return m

@@ -1,0 +1,9 @@
+
+
+
+python -m serial.tools.list_ports
+
+systemctl status serial-getty@ttyS0.service
+systemctl stop serial-getty@ttyS0.service
+systemctl mask serial-getty@ttyS0.service
+systemctl mask serial-getty@ttyS0.service
