@@ -1,12 +1,11 @@
+#!/usr/bin/python
+import utils
+import grow_auto_
+import time
+ga=grow_auto_.AutoGrow()
+ga.led_on()
+time.sleep(1)
+ga.led_off()
+time.sleep(1)
 
-#from Tests.pcbv_temperature import PcbvTemp
-from util import *
-
-
-#play_file('D:\\Projects\\JigATP\\Jig\\Speaker\\w.WAV')
-play_file('CarSound.wav')
-#play_file('w.wav')
-#play_file('D:\\Projects\\JigATP\\Jig\\Speaker\\CarSound.WMV')
-
-#PcbvTemp().status
-
+#print(utils.f_name)

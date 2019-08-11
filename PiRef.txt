@@ -1,0 +1,175 @@
+----CONFIG---
+sudo raspi-config
+- Generic 105-kay (Intl)
+-English (US)
+
+--LIST_COM---
+python -m serial.tools.list_ports
+i2cdetect -y 1
+
+-----TEAMVIEWER----
+wget ¨https://download.teamviewer.com/download/linux/teamviewer-host_armhf.deb¨
+sudo dpkg -i filename.deb
+sudo apt-get update
+sudo apt-get -f install
+sudo apt-get -f upgrade
+--for teamviewer info---
+teamviewer info
+
+-------HW SNAPSHOT------
+pinout
+ [back to top]
+How to run it
+Open CMD (on Windows), Terminal/Console (on Linux/BSD) and type:
+java -jar "path/to/the/folder/of/this/tool/"DenkoviRelayCommandLineTool.jar
+Without any parameters, it simple prints help instructions and shows the current version.
+ 
+If you are behind proxy or firewall, you can use the following format of the java command. It is possible the proxy server and port to be different for your case:
+java -Dhttp.proxyHost=proxy.server.com -Dhttp.proxyPort=8000 -jar "path/to/the/folder/of/this/tool/"DenkoviRelayCommandLineTool.jar
+ 
+ [back to top]
+ 
+Available commands
+LIST COMMAND - lists all devices connected to computer.
+To see devices connected to computer, type:
+java -jar DenkoviRelayCommandLineTool.jar list
+Expected answer:
+[DEVICE SERIAL NUMBER] [[DEVICE TYPE]]
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar list
+Output:
+DAE0006K [FT245R USB FIFO]
+DAE0007l [FT232R USB UART]
+Please note that denkovi USB 4 and USB 8 Relay Boards are FT245R USB FIFO and USB16 Relay Boards are FT232R USB UART based. They can not be mixed.
+ 
+Important !
+In most Linux OS in order to run our USB relay boards (based on FTDI chipset) you must do the following each time when you connect USB relay board based on FTDI chipset: you must unload this driver (and usbserial) if it is attached to your device ("rmmod ftdi_sio" and "rmmod usbserial" as root user). After that the USB relay board(s) will be shown when the "list" command is invoked.
+ 
+LIST COMMAND - lists all available devices (sorted lexicographically by its serial number) connected to the current machine.
+java -jar DenkoviRelayCommandLineTool.jar list
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar list
+Output:
+DAE001d3 [FT245R USB FIFO] [id=0]
+DAE002iD [FT232R USB UART] [id=1]
+ 
+ 
+STATUS COMMAND - displays relay(s) status(es).
+If you want to get status for one relay, type:
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT] [RELAY NUMBER] status
+Relay count can be: 4 (USB 4 Relay Board),8 (USB 8 Relay Board),16 (USB 16 Relay Board)
+Expected results: 1 – for ON relay and 0 – for OFF relay.
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 2 status
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 16 12 status
+Output:
+0 // relay N 2 on USB 4 relay board is turned off
+1 // relay N 12 on USB 16 relay board is turned on
+
+If you want to get status for all relays, type:
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT] all status
+Expected results: 1n – for working relays and 0n – for stopped relays.
+ 
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 all status
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 16 all status
+Output:
+1011 //only relay N 2 on USB 4 relay board is turned off
+0100000000000000 //only relay 2 on USB 16 relay based device is turned on
+ 
+SET COMMAND - sets relay(s) state(s).
+If you want to set status for single relay, type:
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT] [RELAY NUMBER] [{0,1}]
+Expected results:  returns the status of all relays if the command is successful.
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 2 1
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 16 12 0
+Output:
+1100
+0000000001101100
+After executing, relay 2 on USB 4 relay board will be turned on, all other will be unchanged, and relay 12 on USB 16 relay board will be turned off, all others - unchanged.
+ 
+If you want to set on/off all the relays at once, type:
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT] all [{0,1}]
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 all 1
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 16 all 0
+Output:
+1111 //all the four relays are ON
+0000000000000000 //all sixteen relays are OFF
+ 
+If you want to set different status for all relays at once with one command, type:
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] turn [{0,1}n]
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 turn 1110
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 16 turn 1111111111110110
+Output:
+1110
+1111111111110110
+After executing all relays on USB 4 relay board will be turned on except relay 4, and only relays 12 and 16 on USB 16 relay board will be turned off, but all others will be turned on.
+ 
+TEMPERATURE COMMAND - get the temperature value (only if the relay board support temperature sensors)
+
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT=4] temp [{C,F}]
+Expected results:  the temperature value in C or F
+Examples:
+Input:
+java -jar DenkoviRelayCommandLineTool.jar DAE0006K 4 temp C
+java -jar DenkoviRelayCommandLineTool.jar DAE0007l 4 temp F
+Output:
+29.5C
+85.0F
+The first answer is in Celsius and the second is in Fahrenheit.
+ 
+TIMER COMMAND - exectues time-critical operations. Well known fact is that every time when we run the command line tool the jvm is runned and this takes significant time. Many users contacted us with requests to execute timer commands for time-critical operations. That's why we added such command. It can perform single pulse, many pulses and even cycles with more complex sequences of pulses and every pulse can be with different time (in miliseconds). Please note the state bits must be equal to the relay numer!
+
+java -jar DenkoviRelayCommandLineTool.jar [DEVICE SERIAL NUMBER or ID] [RELAY COUNT] timer [cycles,state1,time1,state2,time2...]
+Expected results:  current cycle and relays statuses during every switching
+Examples:
+Example 1:
+java -jar DenkoviRelayCommandLineTool.jar id=1 4 timer 1,1111,10,0000,50,1111,25 //makes all relays ON for 10ms, all OFF for 50ms and all ON for 25ms
+Cycle 1/1
+1111
+0000
+1111
+Example 2:
+java -jar DenkoviRelayCommandLineTool.jar id=1 8 timer 5,11111111,10,00000000,100 //makes all relays ON for 10ms and all OFF for 100ms - 5 times
+Cycle 1/5
+11111111
+00000000
+Cycle 2/5
+11111111
+00000000
+Cycle 3/5
+11111111
+00000000
+Cycle 4/5
+11111111
+00000000
+Cycle 5/5
+11111111
+00000000
+Example 3:
+java -jar DenkoviRelayCommandLineTool.jar id=1 16 timer 5,1000000000000000,10,0000000000000000,1000 //makes first relay ON for 10ms and OFF for 1sec - 5 times
+Cycle 1/5
+1000000000000000
+0000000000000000
+Cycle 2/5
+1000000000000000
+0000000000000000
+Cycle 3/5
+1000000000000000
+0000000000000000
+Cycle 4/5
+1000000000000000
+0000000000000000
+Cycle 5/5
+1000000000000000
+0000000000000000
