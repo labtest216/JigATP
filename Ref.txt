@@ -1,0 +1,24 @@
+--LIST_COM---
+python -m serial.tools.list_ports
+i2cdetect -y 1
+
+-------HW SNAPSHOT------
+pinout
+
+-------APT-------
+sudo apt-get install device-tree-compiler i2c-tools
+sudo apt-get install python-smbus
+sudo apt-get install -y i2c-tools
+sudo -H pip install esptool
+sudo apt-get install python3-pip
+sudo apt-get install python-pip
+
+------PIP---------
+pip install pymongo
+pip install schedule
+pip install pyserial
+pip install pyglet
+pip install -U matplotlib
+pip install panda
+pip install swampy
+pip install PyDAQmx

@@ -107,11 +107,11 @@ class Denkovi16(Device):
     def getway_on(self):
         return self.set_switch(lda, 1)
 
-    def light2_off(self):
-        return self.set_switch(light2, 0)
+    def light123_off(self):
+        return self.set_switch("04-//", 0)
 
-    def light2_on(self):
-        return self.set_switch(light2, 1)
+    def light123_on(self):
+        return self.set_switch("04+//", 1)
 
     def test_device(self):
         self.lda_on()
@@ -123,4 +123,4 @@ class Denkovi16(Device):
         self.light1_off()
 
 # Test class.
-r = Denkovi16().test_device()
+# r = Denkovi16().test_device()

@@ -6,13 +6,6 @@ from datetime import datetime
 import pyglet
 
 
-def add_pack():
-	setup(
-		name='Jig',
-		packages=['Tests', 'Sniffer', 'RelayBoard', 'Speaker'],
-		include_package_data=True,
-		install_requires=['flask'],)
-
 
 def find_avg_value_from_file(file_path, value):
 	f = open(file_path, 'r')
@@ -36,17 +29,15 @@ def check_limits(limit_low, limit_high, delta):
 	else:
 		return -1
 
-
 def find_value_in_line(lines, value):
 	for line in lines:
 		if line.find(value) != -1:
 			return line
 
-
 # Debug printer.
 def dprint(data_to_print):
-	# os.system('echo ' + str(time()) + ' ' + str(data_to_print))
 	print(str(time.time()) + " " + str(datetime.now()) + " " + data_to_print)
+
 
 # Get function name.
 # -2=current frame, -3=up frame.

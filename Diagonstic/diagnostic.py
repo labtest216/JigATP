@@ -1,19 +1,12 @@
-#from serial import Serial
+from serial import Serial
 import serial.tools.list_ports
-from device import Device
-from device import Device
-from Sensor.LDA_GPS import LedAnalyzer
+
 from RelayBoard.denkovi16 import Denkovi16
 
 def get_my_com():
 
     list = {}
-    #snif = Sniffer()
-    #motor = Motor()
-    rb = Denkovi16()
-    #gw = Getway()
-    lda = LedAnalyzer()
-    devs = [rb, lda]
+    
 
     comlist = serial.tools.list_ports.comports()
     connected_com = []
