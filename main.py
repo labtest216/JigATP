@@ -9,3 +9,4 @@ ga.led_off()
 time.sleep(1)
 
 #print(utils.f_name)
+#192.168.14.78
