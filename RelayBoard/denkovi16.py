@@ -1,6 +1,8 @@
 #!/usr/bin/python
-from util import * 
+
 import serial
+import serial.tools.list_ports
+from util import * 
 
 class Denkovi16:
 	_br = 115200
