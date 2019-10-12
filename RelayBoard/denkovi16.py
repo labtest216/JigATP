@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import serial
 import serial.tools.list_ports
@@ -29,7 +29,9 @@ class Denkovi16:
 
 	#def __init__(self):
 		#self.init_com()
-  
+  	def __init__(self):
+		self.init_com(self._com,self._br)
+		self.init_board()
 
 	def get_com(self):
 		try:

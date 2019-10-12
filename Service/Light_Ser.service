@@ -1,0 +1,12 @@
+[Unit]
+Description=Turn light on/off schedule form config file.
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/home/odroid/RPi2/
+ExecStart=/usr/bin/python /home/odroid/RPi2/Light.py
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
