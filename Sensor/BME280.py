@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Get this script: wget -O bme280.py http://bit.ly/bme280py
 
 import smbus

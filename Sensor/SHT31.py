@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import smbus
 import time
 

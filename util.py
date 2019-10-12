@@ -1,9 +1,15 @@
-
-import smtplib, socket, time, os, signal, json, sys, logging
+#!/usr/bin/python3
+from Loggers import *
+import psutil, json, logging, time
 import traceback
-from setuptools import setup
-from datetime import datetime
 import pyglet
+import re
+from paramiko import SSHClient, AutoAddPolicy
+from threading import Thread
+import queue
+from subprocess import Popen, PIPE
+from playsound import playsound
+import threading
 
 def init_logger(class_name):
 	# Create logger.
@@ -89,3 +95,132 @@ def get_class(class_name):
 	for comp in parts[1:]:
 		m = getattr(m, comp)
 	return m
+# Get or set parameters in json file.
+def config_file(cfg_file, key, value):
+    json_file = open(cfg_file, "r+")
+    data = json.load(json_file)
+    try:
+        if value == 'get':  # Get value.
+            return str(data[str(key)])
+        else:  # Set value.
+            data[str(key)] = value
+            json_file.seek(0)  # rewind
+            json.dump(data, json_file, sort_keys=True, indent=4)
+            json_file.truncate()
+    except Exception as e:
+        print(f"Can not set or get value on cfg file. Exception message: {str(e)} + {sys.exc_info()}")
+
+
+def kill_all_open_serial_proccesses():
+    print("Killing opened serial and ssh processes")
+    processes_to_kill = ["javaw","docklight"]
+    try:
+        for process_to_kill in processes_to_kill:
+            processes = psutil.process_iter(attrs=None, ad_value=None)
+            for process in processes:
+                current_process = process.name().lower()
+                if process_to_kill in current_process:
+                    print(f"Killed {current_process} process")
+                    process.kill()
+        print("Finish killing of opened serial and ssh processes")
+    except Exception as e:
+        print(f"Failed to kill all serial and ssh processes. Exception message: {str(e)} + {sys.exc_info()}")
+
+
+def copy_file_to_ssh(remote_ip_address, password, source_location, dest_location, username=SETUP["user"], cert=''):
+    print(f"Copying {source_location} to {dest_location} on {remote_ip_address}")
+    try:
+        ssh = SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        if cert == '':
+            ssh.connect(remote_ip_address, username=username, password=password)
+        else:
+            ssh.connect(remote_ip_address, username=username, key_filename=cert)
+        sftp = ssh.open_sftp()
+        sftp.put(source_location, dest_location)
+        sftp.close()
+        ssh.close()
+        print(f"Finish copying {source_location} to {dest_location} on {remote_ip_address}")
+    except Exception as e:
+        print(f"Failed to copy {source_location} to {dest_location} on {remote_ip_address}. Exception message: {str(e)} + {sys.exc_info()}")
+
+
+def copy_file_from_ssh(remote_ip_address, password, source_location, dest_location, username=SETUP["user"], cert=''):
+    print(f"Copying {source_location} from {remote_ip_address} to {dest_location}")
+    try:
+        ssh = SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        if cert == '':
+            ssh.connect(remote_ip_address, username=username, password=password)
+        else:
+            ssh.connect(remote_ip_address, username=username, key_filename=cert)
+        sftp = ssh.open_sftp()
+        sftp.get(source_location, dest_location)
+        sftp.close()
+        ssh.close()
+        print(f"Finish copying {source_location} from {remote_ip_address} to {dest_location}")
+    except Exception as e:
+        print(f"Failed to copy {source_location} from {remote_ip_address} to {dest_location}. Exception message: {str(e)} + {sys.exc_info()}")
+
+
+def exec_ssh_command(remote_ip_address, password, command, username=SETUP["user"], cert=''):
+    print(f"Executing {command} on {remote_ip_address}")
+    try:
+        ssh = SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        if cert == '':
+            ssh.connect(remote_ip_address, username=username, password=password)
+        else:
+            ssh.connect(remote_ip_address, username=username, key_filename=cert)
+        stdin, stdout, stderr = ssh.exec_command(command)
+        output = str(stdout.read())
+        ssh.close()
+        print(f"Successfully executed {command} on {remote_ip_address}")
+        time.sleep(1)
+    except Exception as e:
+        print(f"Failed to execute {command} on {remote_ip_address}. Exception message: {str(e)} + {sys.exc_info()}")
+        return ''
+    return output
+
+#Function return True if filename exist in path at remote_ip_address or False if it doesn't
+def check_if_file_exist_remote_ssh(remote_ip_address, username, password, path, filename):
+    print(f"Checking if {filename} exists in {path} on {remote_ip_address}")
+    try:
+        ssh = SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        ssh.connect(remote_ip_address, username=username, password=password)
+        sftp = ssh.open_sftp()
+        print(f'Remote path: {path}/{filename}')
+        try:
+            sftp.stat(path + "/" + filename)
+        except IOError as ex:
+            if 'No such file' in str(ex):
+                print(f"{filename} doesn't exists in {path} on {remote_ip_address}")
+                ssh.close()
+                return False
+        # stdin, stdout, stderr = ssh.exec_command(command)
+        # output = str(stdout.read())
+        print(f"{filename} exists in {path} on {remote_ip_address}")
+        ssh.close()
+        # print(f"Successfully executed {command} on {remote_ip_address}")
+    except Exception as e:
+        print(f"Failed to check if {filename} exists in {path} on {remote_ip_address}. Exception message: {str(e)} + {sys.exc_info()}")
+    return True
+
+
+
+def check_ping(ip_address):
+    p = Popen(["ping", ip_address],stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    res = p.communicate(timeout=30)[0].decode(errors='ignore')
+    print(f"response = {res}")
+    if "(0% loss)" in res:
+        print(f"{ip_address} is responding to pings")
+        return True
+    else:
+        print(f"{ip_address} missed pings")
+        return False
+

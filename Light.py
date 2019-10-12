@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # GROWING LIGHT SERVICE
 # Power On  the light 18[h]
 # Power Off the light  6[h]
 
 
-import wiringpi as wpi
+
 import serial
 import schedule
 from time import *
@@ -32,7 +32,7 @@ class LightService:
 
 		while True:
 			sleep(0.01)
-			print("----------------------------------day_on_18h_from_06_to_24----------------------------------")
+			#print("----------------------------------day_on_18h_from_06_to_24----------------------------------")
 			#print("----------------------------------day_off_18h_from_06_to_24----------------------------------")
 			schedule.run_pending()
 
