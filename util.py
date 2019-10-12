@@ -3,7 +3,7 @@
 import psutil, json, logging, time
 import traceback
 import pyglet
-import re
+
 from paramiko import SSHClient, AutoAddPolicy
 from threading import Thread
 import queue
@@ -23,7 +23,9 @@ def init_logger(class_name):
     fh = logging.FileHandler("/home/Hydro.log")
 
     # Create formatter.
-    form = str(time.time()) + '  %(asctime)s  FileName=%(filename)s  FuncName=%(funcName)s:  %(message)s'
+    #form = str(time.time()) + '  %(asctime)s  FileName=%(filename)s  FuncName=%(funcName)s:  %(message)s'
+    form = str('  %(asctime)s  FileName=%(filename)s  FuncName=%(funcName)s:  %(message)s')
+
     formatter = logging.Formatter(form)
 
     # Add formatter.

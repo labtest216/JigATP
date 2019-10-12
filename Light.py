@@ -5,37 +5,59 @@
 # Power Off the light  6[h]
 
 
-
+import threading
+import time
 import serial
 import schedule
-from time import *
 from RelayBoard.denkovi16 import *
+from util import *
+from cfg import *
 
 
-class LightService:
+# GDP    1     2     3
+#on  1 2 3 4 5 6 7 8 9 10
+#        10     10     10
+#0ff 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+#         0     0     0
+#on  1 2 3 4 5 6 7 8 9 10
+#        1     1     1
+#0ff 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+#         0     0     0
 
+
+
+
+
+class Service:
 	rb = Denkovi16()
 
-	def day_on_18h_from_06_to_24(self):
-		schedule.every(5).seconds.do(self.rb.light123_on)
-		schedule.every(8).seconds.do(self.rb.light123_off)
-		#schedule.every().day.at("06:00").do(self.rb.light123_on())
-		#schedule.every().day.at("24:00").do(self.rb.light123_off())
-	
-		
+	def run_threaded(self, job_func):
+		job_thread = threading.Thread(target=job_func)
+		job_thread.start()
 
-	def day_off_18h_from_06_to_24(self):
-		schedule.every(3).seconds.do(rb.light123_off)
-		#schedule.every().day.at("06:00").do(self.rb.light123_off())
-      		#schedule.every().day.at("24:00").do(self.rb.light123_on())
-	
+class LightGrowService(Service):
 	def start(self):
-		self.day_on_18h_from_06_to_24()
-		while True:
-			sleep(1)
-			#print("----------------------------------day_on_18h_from_06_to_24----------------------------------")
-			#print("----------------------------------day_off_18h_from_06_to_24----------------------------------")
-			schedule.run_pending()
+		# schedule.every().day.at("06:00").do(self.rb.light123_on)
+		# schedule.every().day.at("24:00").do(self.rb.light123_off)
+		schedule.every(3).seconds.do(self.rb.light123_on_grow)
+		schedule.every(3.8).seconds.do(self.rb.light123_off_grow)
 
-ls = LightService()
-ls.start()
+
+class LightFlowService(Service):
+	def start(self):
+		# schedule.every().day.at("06:00").do(self.rb.light123_on)
+		# schedule.every().day.at("24:00").do(self.rb.light123_off)
+
+		schedule.every(3).seconds.do(self.rb.light123_on_flow)
+		schedule.every(3.8).seconds.do(self.rb.light123_off_flow)
+
+
+grow = LightGrowService()
+flow = LightFlowService()
+
+grow.start()
+flow.start()
+
+while True:
+	time.sleep(0.1)
+	schedule.run_pending()
