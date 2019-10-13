@@ -1,11 +1,8 @@
 #!/usr/bin/python
 from cfg import *
 from util import *
-
 import serial
 import serial.tools.list_ports
-
-
 
 
 class Denkovi16:
@@ -30,10 +27,8 @@ class Denkovi16:
         "8": "08+//", "9": "09+//", "10": "10+//", "11": "11+//", "12": "12+//", "13": "13+//",
         "14": "14+//", "15": "15+//", "16": "16+//"}
 
-    # def __init__(self):
-    # self.init_com()
-    def __init__(self):
-        self.init_com(self._com, self._br)
+    #def __init__(self):
+        #self.init_com(self._com, self._br)
 
     def get_com(self):
         try:
@@ -60,7 +55,7 @@ class Denkovi16:
 
     def init_com(self, com, br):
         try:
-            self._com = serial.Serial(port=com, baudrate=br, bytesize=8, parity='N', stopbits=1, timeout=2)  #
+            self._com = serial.Serial(port=com, baudrate=br, bytesize=8, parity='N', stopbits=1, timeout=1)  #
             if self._com.is_open:
                 self.logger.debug('pass')
                 return 0
@@ -77,11 +72,15 @@ class Denkovi16:
         return read_buf.decode()
 
     def send_and_wait(self, data_to_send, data_to_get):
+        # Open com.
+        self.init_com(self._com, self._br)
         self.logger.debug(self.get_class_name() + " send " + data_to_send + " wait for " + data_to_get)
         self._com.write(data_to_send.encode("ascii"))
         read_buf = self._com.read(size=len(data_to_get)).decode("ascii")
         self.logger.debug(self.get_class_name() + " receive " + str(read_buf))
         if read_buf == data_to_get:
+            # Close com.
+            self._com.close()
             return 0
         else:  # Try resend and wait for ack.
             self._com.write(data_to_send.encode("ascii"))
@@ -89,9 +88,13 @@ class Denkovi16:
             self.logger.debug(self.get_class_name() + " send " + data_to_send + " wait for " + data_to_get)
             self.logger.debug(self.get_class_name() + " receive " + str(read_buf))
             if read_buf == data_to_get:
+                # Close com.
+                self._com.close()
                 return 0
             else:
                 self.logger.debug(self.get_class_name() + " not get ack")
+                # Close com.
+                self._com.close()
             return -1
 
     def get_class_name(self):
@@ -109,11 +112,11 @@ class Denkovi16:
     # Switch On =1, Switch Off=0 .
     def set_switch(self, switch_num, mode):
         assert 1 <= switch_num <= self._num_of_relay, " No switch like this"
-
         if mode == 1:  # Switch On.
             feedback = self._switches_on[str(switch_num)]
             if self.send_and_wait(self._switches_on[str(switch_num)], feedback) == 0:
                 self.logger.debug(" number " + str(switch_num) + " on pass")
+                self._com.close()
                 return 0
             else:
                 self.logger.debug("fail")
@@ -138,66 +141,70 @@ class Denkovi16:
         time.sleep(2)
         self.light123_off()
         time.sleep(2)
-#---------------------------------------------------------------------
-
-    def light123_on_flow(self):
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowDays = config_file(cfg_json, "FlowDays", "get")
-        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-
-        if str(GrowEnd) == "True":
-            if str(FlowEnd) == "True":
-                if FlowDaysPass < FlowDays:
-                    print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass)
-                    return self.set_switch(4, 1)
-
-    def light123_off_flow(self):
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowDays = config_file(cfg_json, "FlowDays", "get")
-        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-
-        if str(GrowEnd) == "True":
-            if str(FlowEnd == "True"):
-                if FlowDaysPass == FlowDays:
-                    print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
-                    config_file(cfg_json, "FlowEnd", 'true')
-                    return self.set_switch(4, 0)
-                elif FlowDaysPass < FlowDays:
-                    print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
-                    config_file(cfg_json, "FlowDaysPass", int(FlowDaysPass) + 1)
-                    return self.set_switch(4, 0)
-            else:
-                print("FlowEnd")
 # ---------------------------------------------------------------------
 
     def light123_on_grow(self):
         GrowDays = config_file(cfg_json, "GrowDays", "get")
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
+        #print("light123_on_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
 
-        if str(GrowEnd) == "False":
-            if int(GrowDaysPass) < GrowDays:
-                print("light123_on_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
+        if int(GrowEnd) == 0:
+            if GrowDaysPass < GrowDays:
+                #print("light123_on_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
                 return self.set_switch(4, 1)
 
     def light123_off_grow(self):
         GrowDays = config_file(cfg_json, "GrowDays", "get")
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
+        print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
 
-        if str(GrowEnd) == "False":
+        if int(GrowEnd) == 0:
             if GrowDaysPass == GrowDays:
-                print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
-                config_file(cfg_json, "GrowEnd", "true")
+                #print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
+                config_file(cfg_json, "GrowEnd", 1)
                 return self.set_switch(4, 0)
             elif GrowDaysPass < GrowDays:
-                print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd="+GrowEnd)
+                #print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd="+GrowEnd)
                 config_file(cfg_json, "GrowDaysPass", int(GrowDaysPass) + 1)
                 return self.set_switch(4, 0)
         else:
             print("GrowEnd")
+#---------------------------------------------------------------------
+
+    def light123_on_flow(self):
+        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
+        FlowEnd = config_file(cfg_json, "FlowEnd", "get")
+        FlowDays = config_file(cfg_json, "FlowDays", "get")
+        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
+        #print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass +" GrowEnd=" + GrowEnd)
+
+        if int(GrowEnd):
+            if int(FlowEnd) == 0:
+                if FlowDaysPass < FlowDays:
+                    #print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass)
+                    return self.set_switch(4, 1)
+
+    def light123_off_flow(self):
+        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
+        FlowEnd = config_file(cfg_json, "FlowEnd", "get")
+        FlowDays = config_file(cfg_json, "FlowDays", "get")
+        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
+        print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass + " GrowEnd" + GrowEnd)
+
+        if int(GrowEnd):
+            if int(FlowEnd) == 0:
+                if FlowDaysPass == FlowDays:
+                    #print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
+                    config_file(cfg_json, "FlowEnd", 1)
+                    return self.set_switch(4, 0)
+                elif FlowDaysPass < FlowDays:
+                    #print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
+                    config_file(cfg_json, "FlowDaysPass", int(FlowDaysPass) + 1)
+                    return self.set_switch(4, 0)
+            else:
+                print("FlowEnd")
 
 
 """

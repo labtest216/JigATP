@@ -25,39 +25,40 @@ from cfg import *
 #         0     0     0
 
 
-
-
-
 class Service:
 	rb = Denkovi16()
 
-	def run_threaded(self, job_func):
+	def start(self): pass
+
+	def run_threaded_job(self, job_func):
 		job_thread = threading.Thread(target=job_func)
 		job_thread.start()
 
-class LightGrowService(Service):
-	def start(self):
-		# schedule.every().day.at("06:00").do(self.rb.light123_on)
-		# schedule.every().day.at("24:00").do(self.rb.light123_off)
-		schedule.every(3).seconds.do(self.rb.light123_on_grow)
-		schedule.every(3.8).seconds.do(self.rb.light123_off_grow)
+	def start_schedule_jobs(self, schedule_job1,schedule_job2):
+		schedule_job1()
+		schedule_job2()
+		while True:
+			time.sleep(0.1)
+			schedule.run_pending()
 
 
-class LightFlowService(Service):
-	def start(self):
-		# schedule.every().day.at("06:00").do(self.rb.light123_on)
-		# schedule.every().day.at("24:00").do(self.rb.light123_off)
+class LightService(Service):
+	def grow(self):
 
-		schedule.every(3).seconds.do(self.rb.light123_on_flow)
-		schedule.every(3.8).seconds.do(self.rb.light123_off_flow)
+		# schedule.every().day.at("06:00").do(self.run_threaded_job, self.rb.light123_on_grow)
+		# schedule.every().day.at("24:00").do(self.run_threaded_job, self.rb.light123_off_grow)
+
+		schedule.every(3).seconds.do(self.run_threaded_job, self.rb.light123_on_grow)
+		schedule.every(3.8).seconds.do(self.run_threaded_job, self.rb.light123_off_grow)
+
+	def flow(self):
+		# schedule.every().day.at("06:00").do(self.run_threaded_job, self.rb.light123_on_flow)
+		# schedule.every().day.at("24:00").do(self.run_threaded_job, self.rb.light123_off_flow)
+
+		schedule.every(3).seconds.do(self.run_threaded_job, self.rb.light123_on_flow)
+		schedule.every(3.8).seconds.do(self.run_threaded_job, self.rb.light123_off_flow)
+
+l = LightService()
+l.start_schedule_jobs(l.grow, l.flow)
 
 
-grow = LightGrowService()
-flow = LightFlowService()
-
-grow.start()
-flow.start()
-
-while True:
-	time.sleep(0.1)
-	schedule.run_pending()
