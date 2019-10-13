@@ -8,6 +8,7 @@ import serial.tools.list_ports
 class Denkovi16:
     _i_init_com = 1
     _com = '/dev/ttyUSB0'
+    #_com = '/dev/ttyTEST'
     _br = 9600
 
     _all_switches_off = "off//"
@@ -144,29 +145,23 @@ class Denkovi16:
 # ---------------------------------------------------------------------
 
     def light123_on_grow(self):
-        GrowDays = config_file(cfg_json, "GrowDays", "get")
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        #print("light123_on_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
 
         if int(GrowEnd) == 0:
-            if GrowDaysPass < GrowDays:
-                #print("light123_on_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
+            if int(GrowDaysPass) < int(GrowDays):
                 return self.set_switch(4, 1)
 
     def light123_off_grow(self):
-        GrowDays = config_file(cfg_json, "GrowDays", "get")
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
+        print("light123_off_grow: GrowDays=" + str(GrowDays) + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
 
         if int(GrowEnd) == 0:
-            if GrowDaysPass == GrowDays:
-                #print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass)
+            if int(GrowDaysPass) == int(GrowDays):
                 config_file(cfg_json, "GrowEnd", 1)
                 return self.set_switch(4, 0)
-            elif GrowDaysPass < GrowDays:
-                #print("light123_off_grow: GrowDays=" + GrowDays + " GrowDaysPass=" + GrowDaysPass + " GrowEnd="+GrowEnd)
+            elif int(GrowDaysPass) < int(GrowDays):
                 config_file(cfg_json, "GrowDaysPass", int(GrowDaysPass) + 1)
                 return self.set_switch(4, 0)
         else:
@@ -176,31 +171,25 @@ class Denkovi16:
     def light123_on_flow(self):
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
-        FlowDays = config_file(cfg_json, "FlowDays", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-        #print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass +" GrowEnd=" + GrowEnd)
 
         if int(GrowEnd):
             if int(FlowEnd) == 0:
-                if FlowDaysPass < FlowDays:
-                    #print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass)
+                if int(FlowDaysPass) < int(FlowDays):
                     return self.set_switch(4, 1)
 
     def light123_off_flow(self):
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
-        FlowDays = config_file(cfg_json, "FlowDays", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-        print("light123_on_flow: FlowDays=" + FlowDays + " GrowDaysPass=" + FlowDaysPass + " GrowEnd" + GrowEnd)
+        print("light123_on_flow: FlowDays=" + str(FlowDays) + " GrowDaysPass=" + FlowDaysPass + " GrowEnd" + GrowEnd)
 
         if int(GrowEnd):
             if int(FlowEnd) == 0:
-                if FlowDaysPass == FlowDays:
-                    #print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
+                if int(FlowDaysPass) == int(FlowDays):
                     config_file(cfg_json, "FlowEnd", 1)
                     return self.set_switch(4, 0)
-                elif FlowDaysPass < FlowDays:
-                    #print("light123_off_grow: FlowDays=" + FlowDays + "FlowDaysPass=" + FlowDaysPass)
+                elif int(FlowDaysPass) < int(FlowDays):
                     config_file(cfg_json, "FlowDaysPass", int(FlowDaysPass) + 1)
                     return self.set_switch(4, 0)
             else:
@@ -259,6 +248,6 @@ class Denkovi16:
 """
 
 # Test class.
-# r = Denkovi16()
-# r.test_device()
-# r.get_com()
+#r = Denkovi16()
+#r.test_device()
+#r.get_com()

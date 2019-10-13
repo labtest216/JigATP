@@ -1,8 +1,6 @@
 {
-    "FlowDays": 5,
     "FlowDaysPass": 5,
     "FlowEnd": 1,
-    "GrowDays": 5,
     "GrowDaysPass": 5,
     "GrowEnd": 1
 }
