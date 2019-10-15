@@ -3,13 +3,10 @@ from cfg import *
 from util import *
 import serial
 import serial.tools.list_ports
-
+from random import *
 
 class Denkovi16:
     _i_init_com = 1
-    _com = '/dev/ttyUSB0'
-    #_com = '/dev/ttyTEST'
-    _br = 9600
 
     _all_switches_off = "off//"
     _relay_card_test = "ask//"
@@ -28,8 +25,16 @@ class Denkovi16:
         "8": "08+//", "9": "09+//", "10": "10+//", "11": "11+//", "12": "12+//", "13": "13+//",
         "14": "14+//", "15": "15+//", "16": "16+//"}
 
-    #def __init__(self):
+    def __init__(self):
         #self.init_com(self._com, self._br)
+        #self._com = serial.Serial(port=com, baudrate=br, bytesize=8, parity='N', stopbits=1, timeout=1)  #
+        self._com = serial.Serial()
+        self._com.baudrate=9600
+        self._com.port='/dev/ttyUSB0'
+        self._com.bytesize=8
+        self._com.parity='N'
+        self._com.stopbits=1
+        self._com.timeout=0.2
 
     def get_com(self):
         try:
@@ -56,13 +61,13 @@ class Denkovi16:
 
     def init_com(self, com, br):
         try:
-            self._com = serial.Serial(port=com, baudrate=br, bytesize=8, parity='N', stopbits=1, timeout=1)  #
             if self._com.is_open:
                 self.logger.debug('pass')
                 return 0
             else:
-                self.logger.debug('fail')
-            return -1
+                self._com.open()
+                self.logger.debug('pass')
+            return 0
         except:
             return -2
 
@@ -73,15 +78,11 @@ class Denkovi16:
         return read_buf.decode()
 
     def send_and_wait(self, data_to_send, data_to_get):
-        # Open com.
-        self.init_com(self._com, self._br)
         self.logger.debug(self.get_class_name() + " send " + data_to_send + " wait for " + data_to_get)
         self._com.write(data_to_send.encode("ascii"))
         read_buf = self._com.read(size=len(data_to_get)).decode("ascii")
         self.logger.debug(self.get_class_name() + " receive " + str(read_buf))
         if read_buf == data_to_get:
-            # Close com.
-            self._com.close()
             return 0
         else:  # Try resend and wait for ack.
             self._com.write(data_to_send.encode("ascii"))
@@ -89,13 +90,9 @@ class Denkovi16:
             self.logger.debug(self.get_class_name() + " send " + data_to_send + " wait for " + data_to_get)
             self.logger.debug(self.get_class_name() + " receive " + str(read_buf))
             if read_buf == data_to_get:
-                # Close com.
-                self._com.close()
                 return 0
             else:
                 self.logger.debug(self.get_class_name() + " not get ack")
-                # Close com.
-                self._com.close()
             return -1
 
     def get_class_name(self):
@@ -112,24 +109,39 @@ class Denkovi16:
 
     # Switch On =1, Switch Off=0 .
     def set_switch(self, switch_num, mode):
-        assert 1 <= switch_num <= self._num_of_relay, " No switch like this"
-        if mode == 1:  # Switch On.
-            feedback = self._switches_on[str(switch_num)]
-            if self.send_and_wait(self._switches_on[str(switch_num)], feedback) == 0:
-                self.logger.debug(" number " + str(switch_num) + " on pass")
-                self._com.close()
-                return 0
-            else:
-                self.logger.debug("fail")
-                return -1
-        else:  # Switch Off.
-            feedback = self._switches_off[str(switch_num)]
-            if self.send_and_wait(self._switches_off[str(switch_num)], feedback) == 0:
-                self.logger.debug(" number " + str(switch_num) + " off pass")
-                return 0
-            else:
-                self.logger.debug("fail")
-                return -1
+        try:
+            # Open com.
+            self._com.open()
+            assert 1 <= switch_num <= self._num_of_relay, " No switch like this"
+            if mode == 1:  # Switch On.
+                feedback = self._switches_on[str(switch_num)]
+                if self.send_and_wait(self._switches_on[str(switch_num)], feedback) == 0:
+                    self.logger.debug(" number " + str(switch_num) + " on pass")
+                    # Close com.
+                    self._com.close()
+                    return 0
+                else:
+                    self.logger.debug("fail")
+                    # Close com.
+                    self._com.close()
+                    return -1
+            else:  # Switch Off.
+                feedback = self._switches_off[str(switch_num)]
+                if self.send_and_wait(self._switches_off[str(switch_num)], feedback) == 0:
+                    self.logger.debug(" number " + str(switch_num) + " off pass")
+                    # Close com.
+                    self._com.close()
+                    return 0
+                else:
+                    self.logger.debug("fail")
+                    # Close com.
+                    self._com.close()
+                    return -1
+        except:
+            # Wait random time and try again.
+            time.sleep(random())
+            self.set_switch(switch_num, mode)
+
 
     def light123_off(self):
         return self.set_switch(4, 0)
@@ -145,6 +157,7 @@ class Denkovi16:
 # ---------------------------------------------------------------------
 
     def light123_on_grow(self):
+        print('-----------------------GrowServiceOn------------------------')
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
 
@@ -153,6 +166,7 @@ class Denkovi16:
                 return self.set_switch(4, 1)
 
     def light123_off_grow(self):
+        print('-----------------------GrowServiceOff------------------------')
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         print("light123_off_grow: GrowDays=" + str(GrowDays) + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
@@ -169,6 +183,7 @@ class Denkovi16:
 #---------------------------------------------------------------------
 
     def light123_on_flow(self):
+        print('-----------------------FlowServiceOn------------------------')
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
@@ -179,6 +194,7 @@ class Denkovi16:
                     return self.set_switch(4, 1)
 
     def light123_off_flow(self):
+        print('-----------------------FlowServiceOff------------------------')
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
@@ -194,6 +210,31 @@ class Denkovi16:
                     return self.set_switch(4, 0)
             else:
                 print("FlowEnd")
+
+#---------------------------------------------------------------------
+    def give_1_liter_water(self):
+        print('-----------------------WaterService ------------------------')
+        # Pump=5Liter to 60 seconds.
+        # 1Liter to 60/5=12
+        # Mix water with food by motor.
+
+        # Start motor.
+        #self.set_switch(5, 1)
+        #time.sleep(12)
+
+        # Start pump
+        self.set_switch(9, 1)
+        time.sleep(12)
+        # Stop pump.
+        self.set_switch(9, 0)
+        # Stop motor.
+        #time.sleep(2)
+        # self.set_switch(5, 0)
+
+    def give_water_smart(self):
+        if
+        self.set_switch(9, 0)
+            time.sleep(5)
 
 
 """

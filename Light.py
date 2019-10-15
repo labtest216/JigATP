@@ -16,7 +16,7 @@ from cfg import *
 
 # GDP    1     2     3
 #on  1 2 3 4 5 6 7 8 9 10
-#        10     10     10
+#        x   y x 1   x  y
 #0ff 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 #         0     0     0
 #on  1 2 3 4 5 6 7 8 9 10
@@ -58,7 +58,7 @@ class LightService(Service):
 		schedule.every(7.2).seconds.do(self.run_threaded_job, self.rb.light123_on_flow)
 		schedule.every(11).seconds.do(self.run_threaded_job, self.rb.light123_off_flow)
 
-l = LightService()
-l.start_schedule_jobs(l.grow, l.flow)
+s = LightService()
+s.start_schedule_jobs(s.grow, s.flow)
 
 

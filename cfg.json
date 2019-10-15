@@ -1,6 +1,12 @@
 {
-    "FlowDaysPass": 5,
-    "FlowEnd": 1,
-    "GrowDaysPass": 5,
-    "GrowEnd": 1
+    "FlowDaysPass": 0,
+    "FlowEnd": 0,
+    "GrowDaysPass": 0,
+    "GrowEnd": 0,
+    "SensTemp": 0,
+    "SensHumi": 0,
+    "SensLight": 0,
+    "SensPh": 0,
+    "SensCon1": 0,
+    "SensCon2": 0
 }
