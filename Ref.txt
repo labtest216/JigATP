@@ -1,5 +1,7 @@
 --LIST_COM---
 python -m serial.tools.list_ports
+--INIT_I2C--
+modprobe aml_i2c
 i2cdetect -y 1
 
 -------HW SNAPSHOT------
@@ -14,6 +16,7 @@ sudo apt-get install python3-pip
 sudo apt-get install python-pip
 
 ------PIP---------
+pip install Adafruit-ADS1x15
 pip install pymongo
 pip install schedule
 pip install pyserial

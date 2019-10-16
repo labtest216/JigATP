@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import datetime
 import psutil, json, logging, time
 import traceback
 import pyglet
@@ -69,7 +69,9 @@ def find_value_in_line(lines, value):
 
 # Debug printer.
 def dprint(data_to_print):
-    print(str(time.time()) + " " + str(datetime.now()) + " " + data_to_print)
+    with open(project_dir+str('/Log/Sys.log'),'a+') as file:
+        file.write(str(datetime.now()) + " " + data_to_print)
+    print(str(datetime.now()) + " " + data_to_print)
 
 
 # Get function name.
