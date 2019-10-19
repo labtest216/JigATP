@@ -14,7 +14,10 @@ sudo apt-get install -y i2c-tools
 sudo -H pip install esptool
 sudo apt-get install python3-pip
 sudo apt-get install python-pip
-
+----Grafana---
+sudo apt-get install iotop -y
+apt  install glances
+apt install sysstat
 ------PIP---------
 pip install Adafruit-ADS1x15
 pip install pymongo
@@ -25,3 +28,4 @@ pip install -U matplotlib
 pip install panda
 pip install swampy
 pip install PyDAQmx
+pip install tzlocal
