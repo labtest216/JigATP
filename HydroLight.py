@@ -14,17 +14,6 @@ from util import *
 from cfg import *
 
 
-# GDP    1     2     3
-#on  1 2 3 4 5 6 7 8 9 10
-#        x   y x 1   x  y
-#0ff 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-#         0     0     0
-#on  1 2 3 4 5 6 7 8 9 10
-#        1     1     1
-#0ff 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-#         0     0     0
-
-
 class Service:
 	rb = Denkovi16()
 

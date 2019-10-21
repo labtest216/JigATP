@@ -1,5 +1,6 @@
 #!/usr/bin/python
-import datetime
+
+from datetime import datetime
 import psutil, json, logging, time
 import traceback
 import pyglet

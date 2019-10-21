@@ -233,8 +233,8 @@ class Denkovi16:
         # self.set_switch(5, 0)
 
     def give_water_smart(self):
-        sens1 = config_file("SensCon1","get")
-        sens2 = config_file("SensCon2","get")
+        sens1 = config_file(cfg_json,"SensCon1", "get")
+        sens2 = config_file(cfg_json,"SensCon2", "get")
         if int(sens1) < 100:
             if int(sens2) < 100:
                 dprint('------------------SmartWaterServiceOn-------------------')

@@ -1,12 +1,12 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import smbus
 import time
-from sensor import Sensor
+from Sensors.sensor import Sensor
 # Temperature humidity light sensor.
 # I2c bus=1 I2c adr=0x4A.
 
-class GY39(Sensor):
+class SGY39(Sensor):
 
 	def get_sample(self):
 		try:
@@ -27,12 +27,12 @@ class GY39(Sensor):
 
 			# Output data to screen
 			print("Ambient Light luminance : %.2f lux" %luminance)
-			return luminance, self._unit
+			return round(luminance,3)
 		except Exception as e:
 			print({str(e)})
 			return
 
 
-gy39 = GY39(2, 0x4A, 'lux')
-gy39.get_sample()
+#gy39 = SGY39(1, 0x4A, 'lux')
+#gy39.get_sample()
 

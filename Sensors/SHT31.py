@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 import smbus
 import time
 
@@ -28,7 +28,7 @@ SHT31_STATUS_HEATER_ACTIVE = [0x20, 0x00]
 SHT31_STATUS_ALERT_PENDING = [0x80, 0x00]
 
 
-class SHT31(object):
+class SSHT31(object):
     def __init__(self, address, i2c_bus):
         # Get I2C bus number and address.
         self._addr = address
@@ -135,4 +135,4 @@ class SHT31(object):
         self.read()
 
 
-sht = SHT31(0x45, 2).test_device()
+#sht = SHT31(0x45, 2).test_device()

@@ -1,11 +1,11 @@
 [Unit]
-Description=Turn light on/off schedule form config file.
+Description=Take samples from sensors schedule
 
 [Service]
 Type=simple
 Restart=always
 WorkingDirectory=/home/odroid/RPi2/
-ExecStart=/usr/bin/python /home/odroid/RPi2/Light.py
+ExecStart=/usr/bin/python /home/odroid/RPi2/HydroSensor.py
 StandardOutput=null
 
 [Install]

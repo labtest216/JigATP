@@ -3,6 +3,7 @@
 import smbus
 import time
 
+
 class Sensor:
 
 	def __init__(self, i2c_bus, address, unit):
