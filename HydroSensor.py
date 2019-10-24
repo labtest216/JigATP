@@ -7,6 +7,7 @@ from Sensors.AI_PWM import read_ai0, read_ai1
 from Sensors.BME280 import SBM280_GY39
 from Sensors.GY39 import SGY39
 from RelayBoard.denkovi16 import *
+from DataBaseClient.type_influx import *
 
 class Service:
     rb = Denkovi16()
@@ -41,8 +42,15 @@ class SensorService(Service):
         samples = [lux, tem, pre, hum, ai1, ai2]
         print("lux, tem, pre, hum, ai1, ai2]")
         print(samples)
+        return samples
 
     def send_samples_to_grafana(self):
+        samples = self.read_all_sensors
+        samples = [ [samples[0], 'lux'], [samples[1], 'tem'], [samples[2], 'pre'],
+                    [samples[3], 'hum'], [samples[4], 'ai1'], [samples[5], 'ai2']]
+
+        for sample in samples:
+            write_to_influxdb('Hydro', samples[1], sample[0])
         schedule.every(2).seconds.do(self.read_all_sensors)
 
 s = SensorService()
