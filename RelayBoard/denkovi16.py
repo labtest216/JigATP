@@ -194,7 +194,7 @@ class Denkovi16:
                     return self.set_switch(4, 1)
 
     def light123_off_flow(self):
-        dprint('-----------------------FlowLightServiceOff------------------------')
+        dprint('--FlowLightServiceOff--')
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
@@ -213,7 +213,7 @@ class Denkovi16:
 
 #---------------------------------------------------------------------
     def give_1_liter_water(self):
-        dprint('-----------------------WaterServiceOn------------------------')
+        dprint('----WaterServiceOn--')
         # Pump=5Liter to 60 seconds.
         # 1Liter to 60/5=12
         # Mix water with food by motor.
@@ -237,10 +237,10 @@ class Denkovi16:
         sens2 = config_file(cfg_json,"SensCon2", "get")
         if int(sens1) < 100:
             if int(sens2) < 100:
-                dprint('------------------SmartWaterServiceOn-------------------')
+                dprint('--SmartWaterServiceOn--')
                 self.set_switch(9, 1)
                 time.sleep(6)
-                dprint('------------------SmartWaterServiceOff-------------------')
+                dprint('--SmartWaterServiceOff--')
                 self.set_switch(9, 0)
 
 

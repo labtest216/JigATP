@@ -19,7 +19,7 @@ class SBM280_GY39(Sensor):
             print("Temperature : ", temperature, "C")
             print("Pressure : ", pressure, "hPa")
             print("Humidity : ", humidity, "%")
-            return round(temperature,3), round(pressure,3), round(humidity,3)
+            return str(round(temperature)), str(round(pressure)), str(round(humidity))
         except Exception as e:
             print(str(e))
 

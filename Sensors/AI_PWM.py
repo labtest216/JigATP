@@ -38,7 +38,7 @@ def read_ai0():
         with open('/sys/class/saradc/saradc_ch0', 'r') as file:
             ai0 = file.readline()
         #	self.dprint('ai0='+str(ai0))
-        return int(ai0)
+        return str(int(ai0))
 
     except Exception as e:
         print(str(e))
@@ -49,7 +49,7 @@ def read_ai1():
         with open('/sys/class/saradc/saradc_ch1', 'r') as file:
             ai1 = file.readline()
         #	self.dprint('ai1=' + str(ai1))
-        return int(ai1)
+        return str(int(ai1))
     except Exception as e:
         print(str(e))
 

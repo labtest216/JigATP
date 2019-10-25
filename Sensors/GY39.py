@@ -27,7 +27,7 @@ class SGY39(Sensor):
 
 			# Output data to screen
 			print("Ambient Light luminance : %.2f lux" %luminance)
-			return round(luminance,3)
+			return str(round(luminance))
 		except Exception as e:
 			print({str(e)})
 			return

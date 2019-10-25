@@ -2,6 +2,7 @@
 
 import threading
 import time
+from util import *
 import schedule
 from Sensors.AI_PWM import read_ai0, read_ai1
 from Sensors.BME280 import SBM280_GY39
@@ -40,19 +41,33 @@ class SensorService(Service):
         # wle = read_water_level()
 
         samples = [lux, tem, pre, hum, ai1, ai2]
-        print("lux, tem, pre, hum, ai1, ai2]")
-        print(samples)
+
         return samples
 
     def send_samples_to_grafana(self):
-        samples = self.read_all_sensors
-        samples = [ [samples[0], 'lux'], [samples[1], 'tem'], [samples[2], 'pre'],
-                    [samples[3], 'hum'], [samples[4], 'ai1'], [samples[5], 'ai2']]
+        samples = self.read_all_sensors()
 
-        for sample in samples:
-            write_to_influxdb('Hydro', samples[1], sample[0])
-        schedule.every(2).seconds.do(self.read_all_sensors)
+        write_to_influxdb('hydro', 'lux', samples[0])
+        time.sleep(2)
+        write_to_influxdb('hydro', 'tem', samples[1])
+        time.sleep(2)
+        write_to_influxdb('hydro', 'pre', samples[2])
+        time.sleep(2)
+        write_to_influxdb('hydro', 'hum', samples[3])
+        time.sleep(2)
+        write_to_influxdb('hydro', 'ai1', samples[4])
+        time.sleep(2)
+        write_to_influxdb('hydro', 'ai2', samples[5])
+        time.sleep(2)
+        dprint('------------------SensorsServiceOn-------------------')
+        dprint("lux, tem, pre, hum, ai1, ai2]")
+        dprint(samples)
+
+    def send_samples_schedule(self):
+        schedule.every(30).seconds.do(self.send_samples_to_grafana)
+
+
 
 s = SensorService()
-s.start_schedule_job(s.send_samples_to_grafana)
+s.start_schedule_job(s.send_samples_schedule)
 

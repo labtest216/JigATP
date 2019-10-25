@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 import time
 from influxdb import InfluxDBClient
@@ -5,9 +6,8 @@ from datetime import datetime
 
 def write_to_influxdb(database,measure_name,meashure_value):
     time.sleep(0.2)
-    return os.system('influx -execute \''+'insert '+measure_name+' value='+meashure_value+'\' -database='+database+' -precision=rfc3339')
-print(write_to_influxdb('hydro', 'temperature', '55'))
-
+    os.system('influx -execute \''+'insert '+measure_name+' value='+meashure_value+'\' -database='+database+' -precision=rfc3339')
+    return 0
 # data = [
 #     {
 #         "measurement": "temperature",

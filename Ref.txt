@@ -17,6 +17,7 @@ sudo apt-get install python-pip
 sudo apt-get install curl
 
 ------PIP---------
+pip install influxdb
 pip install Adafruit-ADS1x15
 pip install pymongo
 pip install schedule
