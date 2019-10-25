@@ -3,7 +3,7 @@ import os
 import time
 from influxdb import InfluxDBClient
 from datetime import datetime
-
+from util import *
 def write_to_influxdb(database,measure_name,meashure_value):
     time.sleep(0.2)
     os.system('influx -execute \''+'insert '+measure_name+' value='+meashure_value+'\' -database='+database+' -precision=rfc3339')

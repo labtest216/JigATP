@@ -34,15 +34,15 @@ class Service:
 class LightService(Service):
 	def grow(self):
 
-		schedule.every().day.at("06:00").do(self.run_threaded_job, self.rb.light123_on_grow)
-		schedule.every().day.at("24:00").do(self.run_threaded_job, self.rb.light123_off_grow)
+		schedule.every().day.at("05:00").do(self.run_threaded_job, self.rb.light123_on_grow)
+		schedule.every().day.at("23:00").do(self.run_threaded_job, self.rb.light123_off_grow)
 
 		#schedule.every(3).seconds.do(self.run_threaded_job, self.rb.light123_on_grow)
 		#schedule.every(5).seconds.do(self.run_threaded_job, self.rb.light123_off_grow)
 
 	def flow(self):
-		 schedule.every().day.at("06:00").do(self.run_threaded_job, self.rb.light123_on_flow)
-		 schedule.every().day.at("24:00").do(self.run_threaded_job, self.rb.light123_off_flow)
+		 schedule.every().day.at("05:00").do(self.run_threaded_job, self.rb.light123_on_flow)
+		 schedule.every().day.at("23:00").do(self.run_threaded_job, self.rb.light123_off_flow)
 
 		#schedule.every(7.2).seconds.do(self.run_threaded_job, self.rb.light123_on_flow)
 		#schedule.every(11).seconds.do(self.run_threaded_job, self.rb.light123_off_flow)

@@ -70,9 +70,9 @@ def find_value_in_line(lines, value):
 
 # Debug printer.
 def dprint(data_to_print):
-    print("/n/"+project_dir+str('Log/Sys.log')+"/n")
+    print(project_dir + str(datetime.now()) + " " + data_to_print)
     with open(project_dir+str('/Log/Sys.log'),'a+') as file:
-        file.write(str(datetime.now()) + " " + data_to_print)
+        file.write(str(datetime.now()) + " " + data_to_print+"\n")
     print(str(datetime.now()) + " " + data_to_print)
 
 

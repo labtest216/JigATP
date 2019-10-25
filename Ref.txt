@@ -40,6 +40,7 @@ systemctl start grafana-server
 wget https://dl.influxdata.com/influxdb/releases/influxdb-1.7.8_linux_armhf.tar.gz
 tar xvfz influxdb-1.7.8_linux_armhf.tar.gz
 systemctl status influxdb
+sudo apt install influxdb-client
 
 sudo apt-get install iotop -y
 apt  install glances

@@ -157,7 +157,7 @@ class Denkovi16:
 # ---------------------------------------------------------------------
 
     def light123_on_grow(self):
-        dprint('-----------------------GrowLightServiceOn------------------------')
+        dprint('--GrowLightServiceOn--')
         GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
 
@@ -183,7 +183,7 @@ class Denkovi16:
 #---------------------------------------------------------------------
 
     def light123_on_flow(self):
-        dprint('-----------------------FlowLightServiceOn------------------------')
+        dprint('---FlowLightServiceOn--')
         GrowEnd = config_file(cfg_json, "GrowEnd", "get")
         FlowEnd = config_file(cfg_json, "FlowEnd", "get")
         FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
@@ -226,7 +226,7 @@ class Denkovi16:
         self.set_switch(9, 1)
         time.sleep(12)
         # Stop pump.
-        dprint('-----------------------WaterServiceOff------------------------')
+        dprint('--WaterServiceOff--')
         self.set_switch(9, 0)
         # Stop motor.
         #time.sleep(2)

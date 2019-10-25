@@ -16,9 +16,9 @@ class SBM280_GY39(Sensor):
     def get_sample(self):
         try:
             temperature, pressure, humidity = self.readBME280All()
-            print("Temperature : ", temperature, "C")
-            print("Pressure : ", pressure, "hPa")
-            print("Humidity : ", humidity, "%")
+            #print("Temperature : ", temperature, "C")
+            #print("Pressure : ", pressure, "hPa")
+            #print("Humidity : ", humidity, "%")
             return str(round(temperature)), str(round(pressure)), str(round(humidity))
         except Exception as e:
             print(str(e))

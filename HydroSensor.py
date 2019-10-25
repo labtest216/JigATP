@@ -59,9 +59,10 @@ class SensorService(Service):
         time.sleep(2)
         write_to_influxdb('hydro', 'ai2', samples[5])
         time.sleep(2)
-        dprint('------------------SensorsServiceOn-------------------')
-        dprint("lux, tem, pre, hum, ai1, ai2]")
-        dprint(samples)
+        dprint('--SensorsServiceOn--')
+        dprint("lux, tem, pre, hum, ai1, ai2")
+        dprint(str(samples[0])+" "+str(samples[1])+" "+str(samples[2])+" "+
+               str(samples[3])+" "+str(samples[4])+" "+str(samples[5]))
 
     def send_samples_schedule(self):
         schedule.every(30).seconds.do(self.send_samples_to_grafana)
