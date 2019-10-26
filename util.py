@@ -11,7 +11,7 @@ import queue
 from subprocess import Popen, PIPE
 from playsound import playsound
 import threading
-
+import socket
 
 def init_logger(class_name):
     # Create logger.
@@ -181,6 +181,13 @@ def exec_ssh_command(remote_ip_address, password, command, username='root', cert
         return ''
     return output
 
+def get_my_ip():
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    my_ip = s.getsockname()[0]
+    s.close()
+    return str(my_ip)
 
 def check_ping(ip_address):
     p = Popen(["ping", ip_address], stdin=PIPE, stdout=PIPE, stderr=PIPE)

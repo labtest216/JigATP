@@ -8,15 +8,16 @@ i2cdetect -y 1
 pinout
 
 -------APT-------
-sudo apt-get install device-tree-compiler i2c-tools
-sudo apt-get install python-smbus
-sudo apt-get install -y i2c-tools
-sudo -H pip install esptool
-sudo apt-get install python3-pip
-sudo apt-get install python-pip
-sudo apt-get install curl
+sudo apt install device-tree-compiler i2c-tools
+sudo apt install python-smbus
+sudo apt install -y i2c-tools
+sudo apt install python3-pip
+sudo apt install python-pip
+sudo apt install curl
+sudo apt install net-tools
 
 ------PIP---------
+sudo -H pip install esptool
 pip install influxdb
 pip install Adafruit-ADS1x15
 pip install pymongo

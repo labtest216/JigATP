@@ -1,0 +1,7 @@
+2019-10-26 19:21:06.523535 influx -host 192.168.14.17 -execute insert lux value='1000 -database='hydro' -precision='rfc3339'
+2019-10-26 19:22:01.993856 influx -host 192.168.14.17 -execute 'insert lux value='1000 -database='hydro' -precision='rfc3339'
+2019-10-26 19:22:50.589095 influx -host 192.168.14.17 -execute 'insert lux value='1000' -database='hydro' -precision='rfc3339'
+2019-10-26 19:23:30.074704 influx -host 192.168.14.17 -execute 'insert lux value=1000' -database='hydro' -precision='rfc3339'
+2019-10-26 19:23:43.376778 influx -host 192.168.14.17 -execute 'insert lux value=1000 -database='hydro' -precision='rfc3339'
+2019-10-26 19:28:03.658991 influx -host 192.168.14.17 -execute 'insert lux value=1000' -database='hydro' -precision='rfc3339'
+2019-10-26 19:28:17.748592 influx -host 192.168.14.17 -execute 'insert lux value=1002' -database='hydro' -precision='rfc3339'
