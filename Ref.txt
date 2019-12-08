@@ -7,12 +7,12 @@ TH-GND     9  GND                    10  RX
            11 0                      12  1
            13 2                      14  GND
            15 3                      16  4
-           17 3V3                    18  5
+AI1-VDD    17 3V3                    18  5
            19 12/MOSI                20  GND
            21 13/MISO                22  6
            23 14/SCLK                24  10
-           25 GND                    26  11
-           27 SDA2                   28  SCL2
+AI1-GND    25 GND                    26  11
+AI1-SDA    27 SDA2                   28  SCL2  AI1-SCL
            29 21                     30  GND
            31 22                     32  26
            33 23                     34  GND

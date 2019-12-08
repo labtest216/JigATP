@@ -65,7 +65,7 @@ class SensorService(Service):
                str(samples[3])+" "+str(samples[4])+" "+str(samples[5]))
 
     def send_samples_schedule(self):
-        schedule.every(30).seconds.do(self.send_samples_to_grafana)
+        schedule.every(3).seconds.do(self.send_samples_to_grafana)
 
 
 

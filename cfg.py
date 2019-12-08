@@ -10,7 +10,7 @@ cfg_json = str(Path.home())+'/RPi2/cfg.json'
 log_dir = project_dir + '/Log/'
 
 
-GrowDays = 5
-FlowDays = 5
+GrowDays = 45
+FlowDays = 45
 GrafanaDbIp = '192.168.14.17'
 #GrafanaDbIp = '192.168.14.17'
