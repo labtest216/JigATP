@@ -1,3 +1,29 @@
+                       ODROID
+TH-VCC     1  3V3                     2  5V
+TH-SDA     3  SDA1                    4  5V
+TH-SCL     5  SCL1                    6  GND
+           7  7                       8  TX
+TH-GND     9  GND                    10  RX
+           11 0                      12  1
+           13 2                      14  GND
+           15 3                      16  4
+           17 3V3                    18  5
+           19 12/MOSI                20  GND
+           21 13/MISO                22  6
+           23 14/SCLK                24  10
+           25 GND                    26  11
+           27 SDA2                   28  SCL2
+           29 21                     30  GND
+           31 22                     32  26
+           33 23                     34  GND
+           35 24                     36  27
+           37 AI1                    38  1V8
+           39 GND                    40  AI0
+
+---TIME ZONE---
+sudo dpkg-reconfigure tzdata
+Asia/Jerusalem
+
 --LIST_COM---
 python -m serial.tools.list_ports
 --INIT_I2C--
@@ -46,3 +72,6 @@ sudo apt install influxdb-client
 sudo apt-get install iotop -y
 apt  install glances
 apt install sysstat
+
+---Git---
+$ git config credential.helper store

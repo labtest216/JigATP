@@ -1,0 +1,74 @@
+# Update GW Version.
+
+# Steps                                        Status
+# Stop gw Service.                                V
+# Git clone new version.                          V
+# Make Clean Up/DownLink Service.                 V
+# Make Up/DownLink Service.                       V
+# Copy certs and eviroment files                  V
+# Copy sys log files.                             V
+# Create soft link for gw service                 V
+# Restart gw Service.                             V
+
+---
+- hosts: 127.0.0.1
+  connection: local
+
+  vars:
+
+  tasks:
+
+    # Upgrade and update system.
+
+    - name: Update system
+      apt:
+        update_cache: yes
+
+    # Install apt apps.
+    - name: Install apt packages
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - openvpn
+          - git
+          - vim
+          - gedit
+          - minicom
+          - python-setuptools
+          - python-pip
+          - python3-pip
+          - python3-venv
+          - net-tools
+          - default-jre
+          - curl
+          - ansible
+          - jq
+          - moreutils
+          - docker
+          - tftp
+          - nmap
+          - cutecom
+          - device-tree-compiler i2c-tools
+          - python-smbus
+          - i2c-tools
+
+    # Install pip3 apps.
+    - name: Install python 3 apps.
+      pip:
+        executable: pip3
+        name:
+          -
+          - pyserial
+          - psutil
+          - schedule
+          - PyGithub
+          - paramiko
+          - pyglet
+          - playsound
+          - AWSIoTPythonSDK
+          - numpy
+          - deepdiff
+          - awscli --upgrade --user #
+#      register: std_out
+#   - debug: msg={{ std_out.BuildValerann.log.split('\n')[:-1] }}

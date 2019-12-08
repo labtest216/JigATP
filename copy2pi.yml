@@ -1,0 +1,25 @@
+
+---
+- hosts: HYDRO
+
+  vars:
+    # Remote.
+    proj_des:    '/home/odroid/'
+
+    # Controller.
+    c_home:           "{{ lookup('env','HOME') }}/"
+    proj_src:         '{{c_home}}PycharmProjects/RPi2'
+
+
+  tasks:
+
+#    - name: Run systemctl daemon-reload
+#      shell: systemctl daemon-reload
+#      register: out
+#    - debug: msg={{ out.stdout.split('\n')[:-1] }}
+#
+#    - name: Start Light service
+#      systemd: state=stopped name=Light masked=no
+
+    - name: Copy Hydro Project
+      copy: src={{proj_src}} dest={{proj_des}}

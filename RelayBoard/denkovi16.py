@@ -29,12 +29,12 @@ class Denkovi16:
         #self.init_com(self._com, self._br)
         #self._com = serial.Serial(port=com, baudrate=br, bytesize=8, parity='N', stopbits=1, timeout=1)  #
         self._com = serial.Serial()
-        self._com.baudrate=9600
-        self._com.port='/dev/ttyUSB0'
-        self._com.bytesize=8
-        self._com.parity='N'
-        self._com.stopbits=1
-        self._com.timeout=0.2
+        self._com.baudrate = 9600
+        self._com.port = '/dev/ttyUSB0'
+        self._com.bytesize = 8
+        self._com.parity = 'N'
+        self._com.stopbits = 1
+        self._com.timeout = 0.2
 
     def get_com(self):
         try:

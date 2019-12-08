@@ -6,7 +6,7 @@ from datetime import datetime
 from util import *
 
 
-def write_to_influxdb(measure_name,meashure_value):
+def write_to_influxdb(measure_name, meashure_value):
     ip_local = get_my_ip()
     ip_remote = '192.168.14.17'
     host = 'influx -host ' + str(ip_remote) + ' -execute '
