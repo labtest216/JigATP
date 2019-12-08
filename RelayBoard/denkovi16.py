@@ -4,7 +4,7 @@ from util import *
 import serial
 import serial.tools.list_ports
 from random import *
-
+from cfg import *
 class Denkovi16:
     _i_init_com = 1
 
@@ -223,11 +223,11 @@ class Denkovi16:
         #time.sleep(12)
 
         # Start pump
-        self.set_switch(9, 1)
+        self.set_switch(sw_water, 1)
         time.sleep(12)
         # Stop pump.
         dprint('--WaterServiceOff--')
-        self.set_switch(9, 0)
+        self.set_switch(sw_water, 0)
         # Stop motor.
         #time.sleep(2)
         # self.set_switch(5, 0)
@@ -238,10 +238,10 @@ class Denkovi16:
         if int(sens1) < 100:
             if int(sens2) < 100:
                 dprint('--SmartWaterServiceOn--')
-                self.set_switch(9, 1)
+                self.set_switch(sw_water, 1)
                 time.sleep(6)
                 dprint('--SmartWaterServiceOff--')
-                self.set_switch(9, 0)
+                self.set_switch(sw_water, 0)
 
 
 
