@@ -124,7 +124,7 @@ class Denkovi16:
             print(str(self.counter))
             # Wait random time and try again.
             time.sleep(random())
-            if self.counter < 2:
+            if self.counter < 2:ls
                 self.set_switch(switch_num, mode)
             else:
                 print('Exception ' + str(f_name()))

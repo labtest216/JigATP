@@ -6,7 +6,7 @@
 
   vars:
     # Remote.
-    proj_des:    '/home/odroid/'
+    proj_des:    '/home/odroid/RPi2/'
     sysd:        '/lib/systemd/system/'
 
     # Controller.
@@ -17,6 +17,8 @@
 
   tasks:
 
+   # - name: Create Horizon directory
+   #   file: path="{{prog_dir}}" state=directory
 
     - name: Copy Hydro Service
       copy: src={{service}} dest={{sysd}}
@@ -25,7 +27,7 @@
       systemd: state=stopped name=Hydro masked=no enabled=yes
 
     - name: Copy Hydro Project
-      copy: src={{proj_src}} dest={{proj_des}} state=directory
+      copy: src={{proj_src}} dest={{proj_des}}
 
     - name: Start Hydro service
       systemd: state=started name=Hydro masked=no enabled=yes
