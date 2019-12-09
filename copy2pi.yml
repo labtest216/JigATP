@@ -13,13 +13,25 @@
 
   tasks:
 
-#    - name: Run systemctl daemon-reload
-#      shell: systemctl daemon-reload
-#      register: out
-#    - debug: msg={{ out.stdout.split('\n')[:-1] }}
-#
-#    - name: Start Light service
-#      systemd: state=stopped name=Light masked=no
+
+
+    - name: Stop Light service
+      systemd: state=stopped name=Light masked=no enable=yes
+
+    - name: Stop Water service
+      systemd: state=stopped name=Light masked=no enable=yes
+
+    - name: Stop Sensor service
+      systemd: state=stopped name=Sensor masked=no enable=yes
 
     - name: Copy Hydro Project
       copy: src={{proj_src}} dest={{proj_des}}
+
+    - name: Start Light service
+      systemd: state=started name=Light masked=no enable=yes
+
+    - name: Start Water service
+      systemd: state=started name=Water masked=no enable=yes
+
+    - name: Start Sensor service
+      systemd: state=started name=Sensor masked=no enable=yes
