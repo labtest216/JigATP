@@ -124,101 +124,11 @@ class Denkovi16:
             print(str(self.counter))
             # Wait random time and try again.
             time.sleep(random())
-            if self.counter < 2:ls
+            if self.counter < 2:
                 self.set_switch(switch_num, mode)
             else:
                 print('Exception ' + str(f_name()))
                 return -1
-
-
-    def light123_off(self):
-        return self.set_switch(sw_light, 0)
-
-    def light123_on(self):
-        return self.set_switch(sw_light, 1)
-
-    def test_device(self):
-        self.light123_on()
-        time.sleep(2)
-        self.light123_off()
-        time.sleep(2)
-# ---------------------------------------------------------------------
-
-    def light123_on_grow(self):
-        dprint('--GrowLightServiceOn--')
-        GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-
-        if int(GrowEnd) == 0:
-            if int(GrowDaysPass) < int(GrowDays):
-                return self.set_switch(sw_light, 1)
-
-    def light123_off_grow(self):
-        dprint('-----------------------GrowLightServiceOff------------------------')
-        GrowDaysPass = config_file(cfg_json, "GrowDaysPass", "get")
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        print("light123_off_grow: GrowDays=" + str(GrowDays) + " GrowDaysPass=" + GrowDaysPass + " GrowEnd=" + GrowEnd)
-
-        if int(GrowEnd) == 0:
-            if int(GrowDaysPass) == int(GrowDays):
-                config_file(cfg_json, "GrowEnd", 1)
-                return self.set_switch(sw_light, 0)
-            elif int(GrowDaysPass) < int(GrowDays):
-                config_file(cfg_json, "GrowDaysPass", int(GrowDaysPass) + 1)
-                return self.set_switch(sw_light, 0)
-        else:
-            print("GrowEnd")
-#---------------------------------------------------------------------
-
-    def light123_on_flow(self):
-        dprint('---FlowLightServiceOn--')
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowEnd = config_file(cfg_json, "FlowEnd", "get")
-        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-
-        if int(GrowEnd):
-            if int(FlowEnd) == 0:
-                if int(FlowDaysPass) < int(FlowDays):
-                    return self.set_switch(sw_light, 1)
-
-    def light123_off_flow(self):
-        dprint('--FlowLightServiceOff--')
-        GrowEnd = config_file(cfg_json, "GrowEnd", "get")
-        FlowEnd = config_file(cfg_json, "FlowEnd", "get")
-        FlowDaysPass = config_file(cfg_json, "FlowDaysPass", "get")
-        print("light123_on_flow: FlowDays=" + str(FlowDays) + " GrowDaysPass=" + FlowDaysPass + " GrowEnd" + GrowEnd)
-
-        if int(GrowEnd):
-            if int(FlowEnd) == 0:
-                if int(FlowDaysPass) == int(FlowDays):
-                    config_file(cfg_json, "FlowEnd", 1)
-                    return self.set_switch(sw_light, 0)
-                elif int(FlowDaysPass) < int(FlowDays):
-                    config_file(cfg_json, "FlowDaysPass", int(FlowDaysPass) + 1)
-                    return self.set_switch(sw_light, 0)
-            else:
-                print("FlowEnd")
-
-#---------------------------------------------------------------------
-    def give_1_liter_water(self):
-        dprint('----WaterServiceOn--')
-        # Pump=5Liter to 60 seconds.
-        # 1Liter to 60/5=12
-        # Mix water with food by motor.
-
-        # Start motor.
-        #self.set_switch(5, 1)
-        #time.sleep(12)
-
-        # Start pump
-        self.set_switch(sw_water, 1)
-        time.sleep(12)
-        # Stop pump.
-        dprint('--WaterServiceOff--')
-        self.set_switch(sw_water, 0)
-        # Stop motor.
-        #time.sleep(2)
-        # self.set_switch(5, 0)
 
     def give_water_smart(self):
         sens1 = config_file(cfg_json,"SensCon1", "get")
