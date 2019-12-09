@@ -1,11 +1,11 @@
 [Unit]
-Description=Take samples from sensors schedule
+Description=Turn water pump on/off schedule form config file.
 
 [Service]
 Type=simple
 Restart=always
 WorkingDirectory=/home/odroid/RPi2/
-ExecStart=/usr/bin/python /home/odroid/RPi2/HydroSensor.py
+ExecStart=/usr/bin/python /home/odroid/RPi2/Hydro.py
 StandardOutput=null
 
 [Install]

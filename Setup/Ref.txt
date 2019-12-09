@@ -75,3 +75,5 @@ apt install sysstat
 
 ---Git---
 $ git config credential.helper store
+Type sudo update-alternatives --config editor
+

@@ -1,11 +1,13 @@
-#!/usr/bin/python
-from cfg import *
-from util import *
+#!/usr/bin/python3
+from random import *
 import serial
 import serial.tools.list_ports
-from random import *
+from util import *
 from cfg import *
+
+
 class Denkovi16:
+    counter = 0
     _i_init_com = 1
 
     _all_switches_off = "off//"
@@ -36,28 +38,7 @@ class Denkovi16:
         self._com.stopbits = 1
         self._com.timeout = 0.2
 
-    def get_com(self):
-        try:
-            comlist = serial.tools.list_ports.comports()
-            connected_com = []
-            for element in comlist:
-                connected_com.append(element.device)
-            print("Connected COM ports: " + str(connected_com))
 
-            for com in connected_com:
-                if self.init_com(self._com, self._br) == 0:  # Try init com.
-                    if self.init_board() == 0:  # Try test com.
-                        print(self.get_class_name() + " :" + str(com))
-                        self._com.name = str(com)
-                        self._com.close()
-                        return str(com)
-                    else:
-                        print('fail')
-                        return -1
-                else:  # Try next com.
-                    self._com.close()
-        except Exception as e:
-            print(e)
 
     def init_com(self, com, br):
         try:
@@ -109,6 +90,7 @@ class Denkovi16:
 
     # Switch On =1, Switch Off=0 .
     def set_switch(self, switch_num, mode):
+
         try:
             # Open com.
             self._com.open()
@@ -138,16 +120,22 @@ class Denkovi16:
                     self._com.close()
                     return -1
         except:
+            self.counter += 1
+            print(str(self.counter))
             # Wait random time and try again.
             time.sleep(random())
-            self.set_switch(switch_num, mode)
+            if self.counter < 2:
+                self.set_switch(switch_num, mode)
+            else:
+                print('Exception ' + str(f_name()))
+                return -1
 
 
     def light123_off(self):
-        return self.set_switch(4, 0)
+        return self.set_switch(sw_light, 0)
 
     def light123_on(self):
-        return self.set_switch(4, 1)
+        return self.set_switch(sw_light, 1)
 
     def test_device(self):
         self.light123_on()
@@ -163,7 +151,7 @@ class Denkovi16:
 
         if int(GrowEnd) == 0:
             if int(GrowDaysPass) < int(GrowDays):
-                return self.set_switch(4, 1)
+                return self.set_switch(sw_light, 1)
 
     def light123_off_grow(self):
         dprint('-----------------------GrowLightServiceOff------------------------')
@@ -174,10 +162,10 @@ class Denkovi16:
         if int(GrowEnd) == 0:
             if int(GrowDaysPass) == int(GrowDays):
                 config_file(cfg_json, "GrowEnd", 1)
-                return self.set_switch(4, 0)
+                return self.set_switch(sw_light, 0)
             elif int(GrowDaysPass) < int(GrowDays):
                 config_file(cfg_json, "GrowDaysPass", int(GrowDaysPass) + 1)
-                return self.set_switch(4, 0)
+                return self.set_switch(sw_light, 0)
         else:
             print("GrowEnd")
 #---------------------------------------------------------------------
@@ -191,7 +179,7 @@ class Denkovi16:
         if int(GrowEnd):
             if int(FlowEnd) == 0:
                 if int(FlowDaysPass) < int(FlowDays):
-                    return self.set_switch(4, 1)
+                    return self.set_switch(sw_light, 1)
 
     def light123_off_flow(self):
         dprint('--FlowLightServiceOff--')
@@ -204,10 +192,10 @@ class Denkovi16:
             if int(FlowEnd) == 0:
                 if int(FlowDaysPass) == int(FlowDays):
                     config_file(cfg_json, "FlowEnd", 1)
-                    return self.set_switch(4, 0)
+                    return self.set_switch(sw_light, 0)
                 elif int(FlowDaysPass) < int(FlowDays):
                     config_file(cfg_json, "FlowDaysPass", int(FlowDaysPass) + 1)
-                    return self.set_switch(4, 0)
+                    return self.set_switch(sw_light, 0)
             else:
                 print("FlowEnd")
 
@@ -245,59 +233,3 @@ class Denkovi16:
 
 
 
-
-"""
-	def light1_off(self):
-		return self.set_switch(light1, 0)
-
-	def light1_on(self):
-		return self.set_switch(light1, 1)
-
-	def motor_off(self):
-		return self.set_switch(motor, 0)
-
-	def motor_on(self):
-		return self.set_switch(motor, 1)
-
-	def buzzer_off(self):
-		return self.set_switch(buzzer, 0)
-
-	def buzzer_on(self):
-		return self.set_switch(buzzer, 1)
-
-	def pneumatic_off(self):
-		return self.set_switch(pneumatic, 0)
-
-	def pneumatic_on(self):
-		return self.set_switch(pneumatic, 1)
-
-	def lda_off(self):
-		return self.set_switch(lda, 0)
-
-	def lda_on(self):
-		return self.set_switch(lda, 1)
-
-	def fan_off(self):
-		return self.set_switch(fan, 0)
-
-	def fan_on(self):
-		return self.set_switch(fan, 1)
-
-	def sniffer_off(self):
-		return self.set_switch(sniffer, 0)
-
-	def sniffer_on(self):
-		return self.set_switch(lda, 1)
-
-	def getway_off(self):
-		return self.set_switch(lda, 0)
-
-	def getway_on(self):
-		return self.set_switch(lda, 1)
-
-"""
-
-# Test class.
-#r = Denkovi16()
-#r.test_device()
-#r.get_com()

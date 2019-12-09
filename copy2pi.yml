@@ -1,37 +1,31 @@
 
 ---
 - hosts: HYDRO
+  become: true
+  become_method: sudo
 
   vars:
     # Remote.
     proj_des:    '/home/odroid/'
+    sysd:        '/lib/systemd/system/'
 
     # Controller.
     c_home:           "{{ lookup('env','HOME') }}/"
-    proj_src:         '{{c_home}}PycharmProjects/RPi2'
+    proj_src:         '{{c_home}}PycharmProjects/RPi2/'
+    service:          '{{proj_src}}Service/Hydro.service'
 
 
   tasks:
 
 
+    - name: Copy Hydro Service
+      copy: src={{service}} dest={{sysd}}
 
-    - name: Stop Light service
-      systemd: state=stopped name=Light masked=no enable=yes
-
-    - name: Stop Water service
-      systemd: state=stopped name=Light masked=no enable=yes
-
-    - name: Stop Sensor service
-      systemd: state=stopped name=Sensor masked=no enable=yes
+    - name: Stop Hydro service
+      systemd: state=stopped name=Hydro masked=no enabled=yes
 
     - name: Copy Hydro Project
-      copy: src={{proj_src}} dest={{proj_des}}
+      copy: src={{proj_src}} dest={{proj_des}} state=directory
 
-    - name: Start Light service
-      systemd: state=started name=Light masked=no enable=yes
-
-    - name: Start Water service
-      systemd: state=started name=Water masked=no enable=yes
-
-    - name: Start Sensor service
-      systemd: state=started name=Sensor masked=no enable=yes
+    - name: Start Hydro service
+      systemd: state=started name=Hydro masked=no enabled=yes
