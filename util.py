@@ -1,57 +1,51 @@
 #!/usr/bin/python
 
 from datetime import datetime
-import psutil, json, logging, time
+import socket
+import os
+import psutil
+import json
+import time
 import traceback
+
+from subprocess import Popen, PIPE
 import pyglet
 from cfg import *
-from paramiko import SSHClient, AutoAddPolicy
-from threading import Thread
-import queue
-from subprocess import Popen, PIPE
-from playsound import playsound
-import threading
-import socket
 
-def init_logger(class_name):
-    # Create logger.
-    logger = logging.getLogger(class_name)
-    logger.setLevel(logging.DEBUG)
 
-    # Create console and file handlers and set level to debug.
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    fh = logging.FileHandler(log_dir+"log.txt")
 
-    # Create formatter.
-    #form = str(time.time()) + '  %(asctime)s  FileName=%(filename)s  FuncName=%(funcName)s:  %(message)s'
-    form = str('  %(asctime)s  FileName=%(filename)s  FuncName=%(funcName)s:  %(message)s')
 
-    formatter = logging.Formatter(form)
 
-    # Add formatter.
-    ch.setFormatter(formatter)
-    fh.setFormatter(formatter)
+def write_to_influxdb(measure_name, meashure_value):
+    ip_local = get_my_ip()
+    ip_remote = '192.168.14.17'
+    host = 'influx -host ' + str(ip_remote) + ' -execute '
+    cmd = '\'insert ' + measure_name + ' value=' + meashure_value
+    db = '\' -database=\'hydro\''
+    time_format = ' -precision=\'rfc3339\''
+    command = host + cmd + db + time_format
+    dprint(command)
 
-    # add handlers to logger
-    logger.addHandler(ch)
-    logger.addHandler(fh)
-    return logger
+    command_local = 'influx -execute \'' + 'insert ' + measure_name + \
+                    ' value='+meashure_value+'\' -database=\'+database+\' -precision=rfc3339'
+    dprint(command)
+    os.system(command)
 
+    return 0
 
 def find_avg_value_from_file(file_path, value):
     f = open(file_path, 'r')
     lines = f.readlines()
 
-    print('value to find=' + value)
+    dprint('value to find=' + value)
     avg_value = 0
     for line in lines:
         lines_split = line.split(',')
         v = find_value_in_line(lines_split, value)
-        print(v)
+        dprint(v)
         avg_value += float(v[len(value):])
     avg_value /= len(lines)
-    print('avg ' + value + '=' + str(avg_value))
+    dprint('avg ' + value + '=' + str(avg_value))
     return avg_value
 
 
@@ -70,9 +64,9 @@ def find_value_in_line(lines, value):
 
 # Debug printer.
 def dprint(data_to_print):
-    with open(project_dir+str('/Log/Sys.log'), 'a+') as file:
-        file.write(str(datetime.now()) + " " + data_to_print+"\n")
-    print(str(datetime.now()) + " " + data_to_print)
+    with open(project_dir+str('/Sys.log'), 'a+') as file:
+        file.write(str(datetime.now()) + " " + f_name() + " " + data_to_print+"\n")
+    print(str(datetime.now()) + " " + f_name() + " " + data_to_print + "\n")
 
 
 # Get function name.
@@ -119,66 +113,7 @@ def config_file(cfg_file, key, value):
             json.dump(data, json_file, sort_keys=True, indent=4)
             json_file.truncate()
     except Exception as e:
-        print(str(e))
-
-
-def copy_file_to_ssh(remote_ip_address, password, source_location, dest_location, username='root', cert=''):
-    print("Copying " + source_location + " to " + dest_location + " on " + remote_ip_address)
-    try:
-        ssh = SSHClient()
-        ssh.load_system_host_keys()
-        ssh.set_missing_host_key_policy(AutoAddPolicy())
-        if cert == '':
-            ssh.connect(remote_ip_address, username=username, password=password)
-        else:
-            ssh.connect(remote_ip_address, username=username, key_filename=cert)
-        sftp = ssh.open_sftp()
-        sftp.put(source_location, dest_location)
-        sftp.close()
-        ssh.close()
-        print("Finish copying " + source_location + " to " + dest_location + " on " + remote_ip_address)
-    except Exception as e:
-        print(str(e))
-
-
-def copy_file_from_ssh(remote_ip_address, password, source_location, dest_location, username='root', cert=''):
-    print("Copying "+ source_location +remote_ip_address+" to"+dest_location)
-    try:
-        ssh = SSHClient()
-        ssh.load_system_host_keys()
-        ssh.set_missing_host_key_policy(AutoAddPolicy())
-        if cert == '':
-            ssh.connect(remote_ip_address, username=username, password=password)
-        else:
-            ssh.connect(remote_ip_address, username=username, key_filename=cert)
-        sftp = ssh.open_sftp()
-        sftp.get(source_location, dest_location)
-        sftp.close()
-        ssh.close()
-        print("Finish copying "+source_location +remote_ip_address +" to " +dest_location)
-    except Exception as e:
-        print(str(e))
-
-
-def exec_ssh_command(remote_ip_address, password, command, username='root', cert=''):
-    print("Executing command on "+remote_ip_address)
-    try:
-        ssh = SSHClient()
-        ssh.load_system_host_keys()
-        ssh.set_missing_host_key_policy(AutoAddPolicy())
-        if cert == '':
-            ssh.connect(remote_ip_address, username=username, password=password)
-        else:
-            ssh.connect(remote_ip_address, username=username, key_filename=cert)
-        stdin, stdout, stderr = ssh.exec_command(command)
-        output = str(stdout.read())
-        ssh.close()
-        print("Successfully executed command on "+remote_ip_address)
-        time.sleep(1)
-    except Exception as e:
-        print(str(e))
-        return ''
-    return output
+        dprint(str(e))
 
 def get_my_ip():
 
@@ -191,10 +126,10 @@ def get_my_ip():
 def check_ping(ip_address):
     p = Popen(["ping", ip_address], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     res = p.communicate(timeout=30)[0].decode(errors='ignore')
-    print("response= " + str(res))
+    dprint("response= " + str(res))
     if "(0% loss)" in res:
         print(ip_address + "is responding to pings")
         return True
     else:
-        print(ip_address + " missed pings")
+        dprint(ip_address + " missed pings")
         return False

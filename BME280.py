@@ -1,12 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Get this script: wget -O bme280.py http://bit.ly/bme280py
 
-import smbus
 import time
 from ctypes import c_short
-from ctypes import c_byte
-from ctypes import c_ubyte
-from Sensors.sensor import Sensor
+from sensor import *
+from util import *
 
 
 # I2c self._bus=1 I2c adr=0x76.

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import sys
-from RelayBoard.denkovi16 import Denkovi16
+from denkovi16 import Denkovi16
 
 if int(len(sys.argv)) != 3:
     print("------------------ODROID-----------------")
@@ -19,11 +19,11 @@ if int(len(sys.argv)) != 3:
     print("AI1-GND    25 GND                    26  11")
     print("AI1-SDA    27 SDA2                   28  SCL2  AI1-SCL")
     print("           29 21                     30  GND")
-    print("       31 22                     32  26")
-    print("       33 23                     34  GND")
-    print("       35 24                     36  27")
-    print("       37 AI1                    38  1V8")
-    print("       39 GND                    40  AI0\n\n")
+    print("           31 22                     32  26")
+    print("           33 23                     34  GND")
+    print("           35 24                     36  27")
+    print("           37 AI1                    38  1V8")
+    print("           39 GND                    40  AI0\n\n")
     print("------------------SW-BOARD-----------------")
     print("sw_venta = 1\nsw_water = 2\nsw_220_v = 3\nsw_light = 4\n")
     print("sw____5v = 5\nsw____5v = 6\nsw____5v = 7\nsw____5v = 8\n")

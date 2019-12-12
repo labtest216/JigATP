@@ -12,7 +12,7 @@
     # Controller.
     c_home:           "{{ lookup('env','HOME') }}/"
     proj_src:         '{{c_home}}PycharmProjects/RPi2/'
-    service:          '{{proj_src}}Service/Hydro.service'
+    service:          '{{proj_src}}Hydro.service'
 
 
   tasks:
@@ -27,7 +27,10 @@
       systemd: state=stopped name=Hydro masked=no enabled=yes
 
     - name: Copy Hydro Project
-      copy: src={{proj_src}} dest={{proj_des}}
+      synchronize: src={{proj_src}} dest={{proj_des}} dirs=yes
+
+    - name: Chown Chgrp
+      file: path=/home/odroid/ owner=odroid group=odroid recurse=yes
 
     - name: Start Hydro service
-      systemd: state=started name=Hydro masked=no enabled=yes
+      systemd: state=started name=Hydro masked=no enabled=yes daemon_reload=yes

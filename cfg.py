@@ -7,7 +7,7 @@ from pathlib import Path
 project_dir = os.path.dirname(os.path.realpath(__file__))
 print(project_dir)
 cfg_json = project_dir +'/cfg.json'
-log_dir = project_dir + '/Log/'
+log_dir = project_dir
 
 GrowDays = 45
 FlowDays = 45

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import smbus
 import time
-from Sensors.sensor import Sensor
+from sensor import *
+from util import *
 # Temperature humidity light sensor.
 # I2c bus=1 I2c adr=0x4A.
 
@@ -26,10 +26,10 @@ class SGY39(Sensor):
 			luminance = ((2 ** exponent) * mantissa) * 0.045
 
 			# Output data to screen
-			#print("Ambient Light luminance : %.2f lux" %luminance)
+			#dprint("Ambient Light luminance : %.2f lux" %luminance)
 			return str(round(luminance))
 		except Exception as e:
-			print({str(e)})
+			dprint({str(e)})
 			return
 
 

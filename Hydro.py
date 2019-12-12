@@ -2,14 +2,13 @@
 
 import time
 import schedule
-from RelayBoard.denkovi16 import *
+from denkovi16 import *
 from util import *
-from DataBaseClient.type_influx import *
-from Sensors.ADC_ADS115 import *
-from Sensors.AI_PWM import *
-from Sensors.BME280 import *
-from Sensors.GY39 import *
-from Sensors.SHT31 import *
+from ADC_ADS115 import *
+from AI_PWM import *
+from BME280 import *
+from GY39 import *
+from SHT31 import *
 
 class HydroService:
     rb = Denkovi16()
