@@ -11,60 +11,23 @@ import time
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
 from util import *
-
-# Create an ADS1115 ADC (16-bit) instance.
-adc = Adafruit_ADS1x15.ADS1115()
+from sensor import *
 
 
-def read_aix4_1():
-    dprint('Reading ADS1x15 values, press Ctrl-C to quit...')
-    # dprint nice channel column headers.
-    dprint('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*range(4)))
-    dprint('-' * 37)
-    # Main loop.
-    while True:
-        # Read all the ADC channel values in a list.
-        values = [0] * 4
-        for i in range(4):
-            # Read the specified ADC channel using the previously set gain value.
-            values[i] = adc.read_adc(i, gain=2 / 3)
-        values[i] = values[i] * 0.0001875
-        # Note you can also pass in an optional data_rate parameter that controls
-        # the ADC conversion time (in samples/second). Each chip has a different
-        # set of allowed data rate values, see datasheet Table 9 config register
-        # DR bit values.
-        # values[i] = adc.read_adc(i, gain=GAIN, data_rate=128)
-        # Each value will be a 12 or 16 bit signed integer value depending on the
-        # ADC (ADS1015 = 12-bit, ADS1115 = 16-bit).
-        # dprint the ADC values.
-        dprint('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*values))
-        # Pause for half a second.
-        time.sleep(0.5)
-    return values[0], values[1], values[2], values[3],
+
+class SADS115(Sensor):
 
 
-def read_aix4_2():
-    dprint('Reading ADS1x15 values, press Ctrl-C to quit...')
-    # dprint nice channel column headers.
-    dprint('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*range(4)))
-    dprint('-' * 37)
-    # Main loop.
-    while True:
-        # Read all the ADC channel values in a list.
-        values = [0] * 4
-        for i in range(4):
-            # Read the specified ADC channel using the previously set gain value.
-            values[i] = adc.read_adc(i, gain=2 / 3)
-        values[i] = values[i] * 0.0001875
-        # Note you can also pass in an optional data_rate parameter that controls
-        # the ADC conversion time (in samples/second). Each chip has a different
-        # set of allowed data rate values, see datasheet Table 9 config register
-        # DR bit values.
-        # values[i] = adc.read_adc(i, gain=GAIN, data_rate=128)
-        # Each value will be a 12 or 16 bit signed integer value depending on the
-        # ADC (ADS1015 = 12-bit, ADS1115 = 16-bit).
-        # dprint the ADC values.
-        dprint('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*values))
-        # Pause for half a second.
-        time.sleep(0.5)
-    return values[0], values[1], values[2], values[3],
+    def get_sample(self):
+        try:
+            adc1 = Adafruit_ADS1x15.ADS1115(address=self._addr, busnum=self._bus)
+            values = [0] * 4
+            for i in range(4):
+                # Read the specified ADC channel using the previously set gain value.
+                values[i] = adc1.read_adc(i, gain=2 / 3)
+                values[i] = values[i] * 0.0001875
+
+            return values[0], values[1], values[2], values[3]
+        except Exception as e:
+            print(str(e))
+

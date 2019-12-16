@@ -15,7 +15,6 @@ from cfg import *
 
 
 
-
 def write_to_influxdb(measure_name, meashure_value):
     ip_local = get_my_ip()
     ip_remote = '192.168.14.17'
@@ -65,8 +64,8 @@ def find_value_in_line(lines, value):
 # Debug printer.
 def dprint(data_to_print):
     with open(project_dir+str('/Sys.log'), 'a+') as file:
-        file.write(str(datetime.now()) + " " + f_name() + " " + data_to_print+"\n")
-    print(str(datetime.now()) + " " + f_name() + " " + data_to_print + "\n")
+        file.write(str(datetime.now()) + " " + data_to_print+"\n")
+    print(str(datetime.now()) + " " + data_to_print + "\n")
 
 
 # Get function name.

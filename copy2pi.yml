@@ -32,5 +32,5 @@
     - name: Chown Chgrp
       file: path=/home/odroid/ owner=odroid group=odroid recurse=yes
 
-    - name: Start Hydro service
-      systemd: state=started name=Hydro masked=no enabled=yes daemon_reload=yes
+#    - name: Start Hydro service
+#      systemd: state=started name=Hydro masked=no enabled=yes daemon_reload=yes
