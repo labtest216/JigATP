@@ -26,7 +26,7 @@ if int(len(sys.argv)) != 3:
     print("           39 GND                    40  AI0\n\n")
     print("------------------SW-BOARD-----------------")
     print("sw_venta = 1\nsw_water = 2\nsw_220_v = 3\nsw_light = 4\n")
-    print("sw____5v = 5\nsw____5v = 6\nsw____5v = 7\nsw____5v = 8\n")
+    print("sw_motor = 5\nsw____5v = 6\nsw____5v = 7\nsw____5v = 8\n")
     print("sw_fansm = 9\nsw_fanlr = 10\nsw_fanxl = 11\nsw_airpu = 12\n")
     print("sw____3v = 13\nsw____3v = 14\nsw____3v = 15\nsw___24v = 16\n\n")
     print("------------------AIx4_1-BOARD-----------------")
