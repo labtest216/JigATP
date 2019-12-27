@@ -2,6 +2,18 @@
 import sys
 from denkovi16 import Denkovi16
 from time import sleep
+
+
+def user_validation(user_val, min_val, max_val):
+    if str(user_val).isnumeric() is True:
+        if int(user_val) < min_val or int(user_val) > max_val:
+            print("max="+max_val+" val="+user_val+" min="+"min_val")
+            return False
+        else:
+            return True
+    else:
+        return False
+
 if int(len(sys.argv)) != 3:
     print("------------------ODROID-----------------")
     print("TH-VCC     1  3V3                     2  5V")
@@ -49,6 +61,15 @@ else:
     rb = Denkovi16()
     sleep(0.5)
     rb.get_sw_status()
-    rb.set_switch(int(sys.argv[1]), int(sys.argv[2]))
-    sleep(0.5)
-    rb.get_sw_status()
+    switch = -2
+    mode = -2
+    while True:
+        #while not user_validation(int(switch), 0, 16):
+        switch = input("set switch:\nsw_venta = 1\nsw_water = 2\nsw_water_sw = 3\nsw_light = 4\nsw_motor = 5\nsw____5v = 6\nsw____5v = 7\n"
+                  "sw____5v = 8\nsw_fansm = 9\nsw_fanlr = 10\nsw_fanxl = 11\nsw_airpu = 12\nsw____3v = 13\n"
+                  "sw____3v = 14\nsw____3v = 15\nsw___24v = 16\n\n")
+        #while not user_validation(int(switch), -1, 1):
+        mode = input("set mode:\n 0/1\n\n")
+        rb.set_switch(int(switch), int(mode))
+        #switch = -2
+        #mode = -2

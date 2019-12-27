@@ -14,7 +14,7 @@ FlowDays = 45
 
 sw_venta = 1
 sw_water = 2
-sw_220_v = 3
+sw_water_sw = 3
 sw_light = 4
 sw_motor = 5
 sw____5v = 6

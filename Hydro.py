@@ -24,18 +24,18 @@ class HydroService:
     def start_schedule_jobs(self):
         # Motor   on/off.
         schedule.every(3).seconds.do(self.send_samples_to_grafana)
-        schedule.every().day.at("07:00").do(self.rb.motor, mode=1)
-        schedule.every().day.at("07:01").do(self.rb.motor, mode=0)
+        schedule.every().day.at("12:00").do(self.rb.motor, mode=1)
+        schedule.every().day.at("12:01").do(self.rb.motor, mode=0)
         # Water   on/off.
-        schedule.every().day.at("07:02:00").do(self.rb.waterpump, mode=1)
-        schedule.every().day.at("07:02:12").do(self.rb.waterpump, mode=0)
-        schedule.every().day.at("07:05").do(self.rb.waterpump, mode=0)
-        schedule.every().day.at("07:06").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("12:02:00").do(self.rb.waterpump, mode=1)
+        schedule.every().day.at("12:02:10").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("12:05").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("12:06").do(self.rb.waterpump, mode=0)
 
         # Light   on/off.
         # Grow:
-        schedule.every().day.at("05:00").do(self.rb.light, mode=1)
-        schedule.every().day.at("23:00").do(self.rb.light, mode=0)
+        schedule.every().day.at("05:30").do(self.rb.light, mode=1)
+        schedule.every().day.at("23:30").do(self.rb.light, mode=0)
         # Flow:
         #schedule.every().day.at("05:00").do(self.rb.light, mode=1)
         #schedule.every().day.at("17:00").do(self.rb.light, mode=0)
@@ -47,9 +47,11 @@ class HydroService:
         # AirPump on/off.
         schedule.every().day.at("08:00").do(self.rb.airpump, mode=1)
         schedule.every().day.at("09:00").do(self.rb.airpump, mode=0)
+        schedule.every().day.at("18:00").do(self.rb.airpump, mode=1)
+        schedule.every().day.at("19:00").do(self.rb.airpump, mode=0)
 
         # Sensors on/off.
-        schedule.every(3).seconds.do(self.send_samples_to_grafana)
+        schedule.every(30).seconds.do(self.send_samples_to_grafana)
         schedule.every(2).minutes.do(self.send_sw_status_to_grafana)
         while True:
             time.sleep(0.1)
