@@ -2,6 +2,7 @@
 import sys
 from denkovi16 import Denkovi16
 from time import sleep
+from cfg import *
 
 
 def user_validation(user_val, min_val, max_val):

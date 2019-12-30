@@ -15,19 +15,21 @@ from sensor import *
 
 
 
-class SADS115(Sensor):
-
+class SADS115():
+    def __init__(self, busnum, address, unit):
+        print(str(address)+' ' +str(busnum))
+        self.adc1 = Adafruit_ADS1x15.ADS1115(address=address, busnum=busnum)
+        self.unit = unit
 
     def get_sample(self):
         try:
-            adc1 = Adafruit_ADS1x15.ADS1115(address=self._addr, busnum=self._bus)
             values = [0] * 4
             for i in range(4):
                 # Read the specified ADC channel using the previously set gain value.
-                values[i] = adc1.read_adc(i, gain=2 / 3)
+                values[i] = self.adc1.read_adc(i, gain=2 / 3)
                 values[i] = values[i] * 0.0001875
 
-            return values[0], values[1], values[2], values[3]
+            return str(values[0]), str(values[1]), str(values[2]), str(values[3])
         except Exception as e:
             print(str(e))
 

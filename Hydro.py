@@ -1,5 +1,20 @@
 #!/usr/bin/python3
+import os
+import sys
 
+
+def add_python_path():
+    print(sys.path)
+    paths = []
+
+    for path in paths:
+        print(sys.path.append(path))
+    print(sys.path)
+
+
+add_python_path()
+
+from influxdb import InfluxDBClient
 import time
 import schedule
 from denkovi16 import *
@@ -19,18 +34,16 @@ class HydroService:
 
     def __init__(self):
         self.rb.waterpump(0)
-        self.send_sw_status_to_grafana()
 
     def start_schedule_jobs(self):
         # Motor   on/off.
-        schedule.every(3).seconds.do(self.send_samples_to_grafana)
-        schedule.every().day.at("12:00").do(self.rb.motor, mode=1)
-        schedule.every().day.at("12:01").do(self.rb.motor, mode=0)
+        schedule.every().day.at("07:00").do(self.rb.motor, mode=1)
+        schedule.every().day.at("07:01").do(self.rb.motor, mode=0)
         # Water   on/off.
-        schedule.every().day.at("12:02:00").do(self.rb.waterpump, mode=1)
-        schedule.every().day.at("12:02:10").do(self.rb.waterpump, mode=0)
-        schedule.every().day.at("12:05").do(self.rb.waterpump, mode=0)
-        schedule.every().day.at("12:06").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("07:02:00").do(self.rb.waterpump, mode=1)
+        schedule.every().day.at("07:02:12").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("07:05").do(self.rb.waterpump, mode=0)
+        schedule.every().day.at("07:06").do(self.rb.waterpump, mode=0)
 
         # Light   on/off.
         # Grow:
@@ -51,8 +64,8 @@ class HydroService:
         schedule.every().day.at("19:00").do(self.rb.airpump, mode=0)
 
         # Sensors on/off.
-        schedule.every(30).seconds.do(self.send_samples_to_grafana)
-        schedule.every(2).minutes.do(self.send_sw_status_to_grafana)
+        schedule.every(3).seconds.do(self.send_samples_to_grafana)
+
         while True:
             time.sleep(0.1)
             schedule.run_pending()
@@ -63,32 +76,35 @@ class HydroService:
         try:
             lux = self.s1.get_sample()
             tem, pre, hum = self.s2.get_sample()
+
             ai1 = read_ai0()
             ai2 = read_ai1()
+
             ph, gc1, gc2, emt = self.s3.get_sample()
             wl1, wl2, wl3, wl4 = self.s4.get_sample()
 
-            samples = [lux, tem, pre, hum, ai1, ai2, ph, gc1, gc2, emt, wl1, wl2, wl3, wl4]
-
+            samples = [ lux,   tem,   pre,   hum,   ai1,   ai2,   ph,   gc1,   gc2,
+                              emt,   wl1,   wl2,   wl3,   wl4]
             return samples
         except Exception as e:
             print("Exception " + str(f_name()) +': ' + str(e))
 
-    def send_sw_status_to_grafana(self):
-        sw1to8, sw9to16 = self.rb.get_sw_status()
-
-        for i in range(0, int(len(sw1to8))):
-            measure_name = self.rb.get_sw(str(1+i))
-            write_to_influxdb(measure_name, sw1to8[i])
 
 
-        for i in range(0, int(len(sw9to16))):
-            measure_name = self.rb.get_sw(str(9+i))
-            write_to_influxdb(measure_name, sw9to16[i])
-
+    # def digitize(self,p1,high_limit):
+    # def calc_water_level(self,p1, p2):
+    #     #    25-20L   20-10L   10-0L
+    #     # p1 0        1        1
+    #     # p2 0        0        1
+    #     # p3 0        0        0
+    #
+    #     if p1
     def send_samples_to_grafana(self):
         try:
+            dprint('----------------------------------------------------------------------------')
             samples = self.read_all_sensors()
+            samples_names = ['lux', 'tem', 'pre', 'hum', 'ai1', 'ai2', 'ph', 'gc1', 'gc2',
+                             'emt', 'wl1', 'wl2', 'wl3', 'wl4']
 
             write_to_influxdb('lux', samples[0])
             write_to_influxdb('tem', samples[1])
@@ -104,14 +120,9 @@ class HydroService:
             write_to_influxdb('wl2', samples[11])
             write_to_influxdb('wl3', samples[12])
             write_to_influxdb('wl4', samples[13])
-            dprint('--SensorsServiceOn--')
-            dprint("lux, tem, pre, hum, ai1, ai2, ph, gc1, gc2, emt, wl1, wl2, wl3, wl4")
-            for sample in samples:
-                dprint(str(sample))
-        except:
-            print('Exception ' + str(f_name()))
-    def send_samples_schedule(self):
-        schedule.every(3).seconds.do(self.send_samples_to_grafana)
+
+        except Exception as e:
+            dprint("Exception " + str(f_name()) + ': ' + str(e))
 
 
 s = HydroService()

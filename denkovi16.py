@@ -88,12 +88,13 @@ class Denkovi16:
             return sw1to8, sw9to16
 
         except Exception as e:
-            print('Exception ' + str(f_name()) + str(e))
+            dprint('Exception ' + str(f_name()) + str(e))
 
     def send_and_get(self, data_to_send):
         dprint(self.get_class_name() + " send " + data_to_send)
         self._com.write(data_to_send.encode("ascii"))
         read_buf = self._com.read_until()
+        dprint(self.get_class_name() + " get " + str(read_buf))
         return read_buf
 
     def send_and_wait(self, data_to_send, data_to_get):
@@ -182,6 +183,21 @@ class Denkovi16:
                 dprint('--SmartWaterServiceOff--')
                 self.set_switch(sw_water, 0)
 
+    def send_sw_status_to_grafana(self):
+        try:
+            sleep(2)
+            sw1to8, sw9to16 = self.get_sw_status()
+
+            for i in range(0, int(len(sw1to8))):
+                measure_name = self.get_sw(str(1+i))
+                write_to_influxdb(measure_name, sw1to8[i])
+
+            for i in range(0, int(len(sw9to16))):
+                measure_name = self.get_sw(str(9+i))
+                write_to_influxdb(measure_name, sw9to16[i])
+        except Exception as e:
+            dprint('Exception ' + str(f_name()) + str(e))
+
     def light(self, mode):
         return self.dbug(mode, str(f_name()), sw_light)
 
@@ -209,8 +225,10 @@ class Denkovi16:
     def dbug(self, mode, fname, sw):
         m = dmode(mode)
         if self.set_switch(sw, mode) == 0:
+            self.send_sw_status_to_grafana()
             dprint(fname + " " + str(m) + " pass")
             return 0
         else:
+            self.send_sw_status_to_grafana()
             dprint(fname + " " + str(m) + " fail")
             return -1

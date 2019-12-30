@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 from datetime import datetime
 import socket
@@ -7,30 +7,28 @@ import psutil
 import json
 import time
 import traceback
-
+from influxdb import InfluxDBClient
 from subprocess import Popen, PIPE
 import pyglet
 from cfg import *
 
 
-
-
-def write_to_influxdb(measure_name, meashure_value):
-    ip_local = get_my_ip()
-    ip_remote = '192.168.14.17'
-    host = 'influx -host ' + str(ip_remote) + ' -execute '
-    cmd = '\'insert ' + measure_name + ' value=' + meashure_value
-    db = '\' -database=\'hydro\''
-    time_format = ' -precision=\'rfc3339\''
-    command = host + cmd + db + time_format
-    dprint(command)
-
-    command_local = 'influx -execute \'' + 'insert ' + measure_name + \
-                    ' value='+meashure_value+'\' -database=\'+database+\' -precision=rfc3339'
-    dprint(command)
-    os.system(command)
-
+def write_to_influxdb(measure_name, test_status):
+    db_name ='hydro'
+    db_ip = '192.168.14.17'
+    client = InfluxDBClient(db_ip, database=db_name)
+    json_body = [
+        {
+            "measurement": measure_name,  # test_status
+            "fields": {
+                "value": float(test_status)
+            }
+        }
+    ]
+    client.write_points(json_body)
+    dprint('Influxdb: db_name=' + db_name + ' measure_name=' + measure_name + ' test_status=' + test_status)
     return 0
+
 
 def find_avg_value_from_file(file_path, value):
     f = open(file_path, 'r')
