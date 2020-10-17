@@ -38,7 +38,7 @@ def get_frame_from_camera(out_path, picture_name=''):
                 print(f"Find camera {i}.")
             cap.release()
             i += 1
-
+        # take picture.
         print("taking 4 pictures of stud")
         cap = cv2.VideoCapture(cameras[1])
         framerate = cap.get(cv2.CAP_PROP_FPS)/3
