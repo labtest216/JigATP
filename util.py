@@ -7,12 +7,78 @@ import psutil
 import json
 import time
 import traceback
+
+import cv2
 from influxdb import InfluxDBClient
 from subprocess import Popen, PIPE
 import pyglet
+
 from cfg import *
 
 
+
+
+
+def get_frame_from_camera(out_path, picture_name=''):
+    try:
+        # Get connected cameras.
+        os.system('ls /dev/video* > /tmp/ls_dev.log')
+        with open('/tmp/ls_dev.log', 'r') as log_file:
+            lines = log_file.readlines()
+        print(lines)
+
+        i = 0
+        cameras = []
+        while i < len(lines):
+            cap = cv2.VideoCapture(i)
+            if not cap.read()[0]:
+                print('')
+            else:
+                cameras.append(i)
+                print(f"Find camera {i}.")
+            cap.release()
+            i += 1
+
+        print("taking 4 pictures of stud")
+        cap = cv2.VideoCapture(cameras[1])
+        framerate = cap.get(cv2.CAP_PROP_FPS)/3
+        framecount = 0
+        number_of_snapshot=0
+        font = cv2.FONT_HERSHEY_COMPLEX_SMALL
+        print("checking if camera is connected")
+        if cap.isOpened():
+            print("camera is connected")
+            ret, frame = cap.read()
+        else:
+            print("camera isn't connected")
+            ret=False
+        print("starting live video from camera")
+        while ret:
+            ret, frame = cap.read()
+            if framecount == 0:
+                time.sleep(2)
+            framecount += 1
+            if number_of_snapshot < 4:
+                if framecount % framerate == 0 and framecount != 1:
+                    number_of_snapshot += 1
+                    current_time = datetime.now().replace(microsecond=0)
+                    text = 'taken: ' + str(current_time)  # create time stamp for image
+                    cv2.putText(frame, text, (10, 60), font, 1, (0, 255, 0), 1)
+                    text2 = str(picture_name)
+                    cv2.putText(frame, text2, (10, 30), font, 1, (0, 255, 0), 1)
+                    print(f"taking snapshot out of live video, snapshot number: {number_of_snapshot}")
+                    cv2.imwrite(os.path.join(out_path, f"{current_time}_{picture_name}--.png"), frame)
+            else:
+                print("done taking 4 snapshots out of live video from the camera")
+                break
+        print("release camera process")
+        cap.release()
+        last_pic_dir = os.path.join(out_path, str(picture_name) + "picture_number" + str(4) + '.png')
+        return last_pic_dir
+    except Exception as e:
+        print(f"Failed to take snapshot from camera. Exception message: {str(e)}")
+        return False
+get_frame_from_camera("/home/gb","10-5-2020")
 def write_to_influxdb(measure_name, test_status):
     db_name ='hydro'
     db_ip = '192.168.14.17'

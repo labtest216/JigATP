@@ -43,18 +43,19 @@ sudo apt install curl
 sudo apt install net-tools
 
 ------PIP---------
-sudo -H pip install esptool
-pip install influxdb
-pip install Adafruit-ADS1x15
-pip install pymongo
-pip install schedule
-pip install pyserial
-pip install pyglet
-pip install -U matplotlib
-pip install panda
-pip install swampy
-pip install PyDAQmx
-pip install tzlocal
+esptool
+nfluxdb
+Adafruit-ADS1x15
+pymongo
+schedule
+pyserial
+pyglet
+matplotlib
+panda
+swampy
+PyDAQmx
+tzlocal
+psutil
 
 
 ----Grafana---
